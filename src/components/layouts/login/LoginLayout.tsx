@@ -4,7 +4,9 @@ import InputText from "@/components/elements/form/inputs/InputText/InputText";
 import { app } from "@/firebase/config";
 import { useAppDispatch } from "@/redux/hooks";
 import { saveJwt } from "@/redux/slices/auth";
-import axios from "axios";
+import { saveUser } from "@/redux/slices/user";
+import { userService } from "@/service/user/userService";
+import {axiosInstance} from "@/service/config";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 import Link from "next/link";
@@ -32,9 +34,18 @@ const LoginLayout = () => {
         data.email,
         data.password
       );
-      dispatch(saveJwt({jwt: result.user.uid}));
-      axios.defaults.headers.common['Authorization'] = `Bearer ${result.user.uid}`;
-      router.push("/home");
+      const token = await result.user.getIdToken();
+      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      const userData = await userService.getUserData(result.user.uid);
+      dispatch(saveJwt({jwt: token}));
+      dispatch(saveUser({
+        user: {
+          id: result.user.uid,
+          name: userData.user.name,
+          email: userData.user.email
+        }
+      }));
+      router.replace("/home");
     } catch (error) {
       console.log("🚀 ~ handleLogin ~ error:", error);
     } finally {

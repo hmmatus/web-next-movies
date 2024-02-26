@@ -1,23 +1,26 @@
 "use client";
-import CustomButton from "@/components/elements/buttons/customButton/CustomButton";
-import ProductCard from "@/components/elements/cards/productCard/ProductCard";
-import { ProductI } from "@/models/product";
+import CinemaCard from "@/components/elements/cards/cinema/CinemaCard";
+import { CinemaI } from "@/models/cinema";
 import { useAppDispatch } from "@/redux/hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 type HomeLayoutP = {
-  products: ProductI[];
+  cinemas: CinemaI[];
 };
-const HomeLayout = ({ products }: HomeLayoutP) => {
+const HomeLayout = ({ cinemas }: HomeLayoutP) => {
   const router = useRouter();
   const dispatch = useAppDispatch();
 
- 
   return (
     <main>
-      
+      <h1>Select a cinema</h1>
+      <div className="grid">
+        {cinemas.map((cinema) => (
+          <CinemaCard key={cinema.id} cinema={cinema} />
+        ))}
+      </div>
     </main>
   );
 };

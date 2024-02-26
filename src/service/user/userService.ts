@@ -14,4 +14,7 @@ export const userService = {
       password,
     });
   },
+  getUserData: (userId: string) => {
+    return service.get(userRoutes.getUserData(userId));
+  }
 };

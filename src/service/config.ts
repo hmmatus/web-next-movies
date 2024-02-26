@@ -1,6 +1,6 @@
 import Axios, { AxiosRequestHeaders } from "axios";
 
-const axiosInstance = Axios.create({
+export const axiosInstance = Axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 10000,
   headers: {
