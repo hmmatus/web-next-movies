@@ -15,9 +15,8 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    saveJwt: (state, action: PayloadAction<{jwt: string, expiration: string}>) => {
+    saveJwt: (state, action: PayloadAction<{jwt: string}>) => {
       state.jwt = action.payload.jwt;
-      state.expiration = action.payload.expiration;
       state.isLoggedIn = true;
     },
     removeJwt: (state) => {
