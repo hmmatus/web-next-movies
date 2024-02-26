@@ -27,7 +27,7 @@ const InputText = ({
       <input
         {...inputProps}
         name={name}
-        className={`w-100 h-8 pl-2 border focus:border-blue rounded-md border-${errorMessage ? "error" : "slate-950"} ${inputProps?.className}`}
+        className={`w-100 h-8 pl-2 border focus:outline-none focus:border-blue rounded-md border-${errorMessage ? "error" : "slate-950"} ${inputProps?.className}`}
         type={type}
         value={value}
         onChange={onChangeValue}

@@ -1,8 +1,6 @@
 import Image from "next/image";
 import InputWrapper from "../InputWrapper/InputWrapper";
 import { useState } from "react";
-import { CustomFileObject } from "@/model/auth/register.model";
-
 type Props = {
   title: string;
   errorMessage?: string;

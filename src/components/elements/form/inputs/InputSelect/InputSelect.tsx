@@ -1,6 +1,6 @@
 import InputWrapper from "../InputWrapper/InputWrapper";
 
-type OptionsP = {
+export type OptionsP = {
   name: string;
   value: string;
 };
@@ -26,7 +26,7 @@ const InputSelect = ({
   return (
     <InputWrapper title={title} errorMessage={errorMessage || ""}>
       <select
-        className={`w-100 h-8 border focus:border-blue rounded-md border-${
+        className={`w-100 h-8 border focus:border-blue rounded-md focus:outline-none border-${
           errorMessage ? "error" : "slate-950"
         }`}
         name="select"

@@ -10,7 +10,7 @@ const InputWrapper = ({ title, children, errorMessage="" }: Props) => {
     <div className="flex flex-col w-full mb-4">
       <label className="text-lg">{title}</label>
       {children}
-      {errorMessage && <p className="text-error-primary">{errorMessage}</p>}
+      {errorMessage && <p className="text-error">{errorMessage}</p>}
     </div>
   );
 };
