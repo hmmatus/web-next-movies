@@ -1,0 +1,4 @@
+.mobile-div {
+  background-color: theme("colors.primary");
+  top: 80px;
+}
