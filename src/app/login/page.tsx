@@ -10,6 +10,6 @@ async function loginRequest(data: { email: string; password: string }) {
     console.log("🚀 ~ loginRequest ~ error:", error);
   }
 }
-export default function AdminLogin() {
-  return <LoginLayout role="admin" onLogin={loginRequest} />;
+export default function Login() {
+  return <LoginLayout/>;
 }

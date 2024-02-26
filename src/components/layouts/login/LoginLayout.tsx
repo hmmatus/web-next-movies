@@ -1,5 +1,6 @@
 "use client";
 import MainButton from "@/components/elements/buttons/MainButton/MainButton";
+import InputSelect, { OptionsP } from "@/components/elements/form/inputs/InputSelect/InputSelect";
 import InputText from "@/components/elements/form/inputs/InputText/InputText";
 
 import Link from "next/link";
@@ -8,17 +9,14 @@ type loginDataP = {
   email: string;
   password: string;
 };
-type LoginLayoutP = {
-  onLogin(data: loginDataP): void;
-  role: string;
-};
-const LoginLayout = ({ role, onLogin }: LoginLayoutP) => {
+
+const LoginLayout = () => {
   const [data, setData] = useState<loginDataP>({
     email: "",
     password: "",
   });
   const handleLogin = () => {
-    onLogin(data);
+    
   };
 
   function onChangeValue(index: string, value: string) {
@@ -46,7 +44,7 @@ const LoginLayout = ({ role, onLogin }: LoginLayoutP) => {
           />
           <Link
             className="text-primary mb-4"
-            href={role === "admin" ? "/admin/signup" : "/user/signup"}
+            href="/signup"
           >
             Dont you have an account? Sign Up
           </Link>
