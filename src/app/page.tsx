@@ -1,12 +1,16 @@
-"use client";
-import LoadingComponent from "@/components/layouts/loading/LoadingLayout";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
-export default function Home() {
-  const router = useRouter();
-  useEffect(() => {
-    router.push("/login");
-  });
-  return <LoadingComponent />;
+import ProtectedRoute from "@/components/elements/protected/ProtectedRoute/ProtectedRoute";
+import HomeLayout from "@/components/layouts/home/HomeLayout";
+import { UserRole } from "@/models/user";
+import { cinemaService } from "@/service/cinema/cinemaService";
+async function getCinemas() {
+  try {
+    const result = await cinemaService.getallCinemas();
+    return result.results;
+  } catch (error) {
+    throw new Error(`${error}`);
+  }
+}
+export default async function Page() {
+  const cinemas = await getCinemas();
+  return <HomeLayout cinemas={cinemas} />;
 }
