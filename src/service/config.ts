@@ -31,4 +31,15 @@ export const service = {
         throw new Error(`${error}`);
       });
   },
+  delete: async (url: string, headers?: AxiosRequestHeaders) => {
+    return await axiosInstance.delete(url, {
+      headers,
+    })
+      .then((response) => {
+        return response.data;
+      })
+      .catch((error) => {
+        throw new Error(`${error}`);
+      });
+  },
 };

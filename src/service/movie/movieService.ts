@@ -21,5 +21,8 @@ export const movieService = {
   },
   getMovieById: (idCinema: string, idMovie: string) => {
     return service.get(movieRoutes.getMovieById(idCinema, idMovie));
-  }
+  },
+  deleteMovie: (idCinema: string, idMovie: string) => {
+    return service.delete(movieRoutes.deleteMovie(idCinema, idMovie));
+  },
 }
