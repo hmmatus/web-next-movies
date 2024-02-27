@@ -5,11 +5,13 @@ interface UserSliceI  {
   email: string;
   id: string;
   name: string;
+  idCinema: string;
 }
 const initialState: UserSliceI = {
   email: "",
   name: "",
   id: "",
+  idCinema: ""
 };
 
 export const userSlice = createSlice({
@@ -17,10 +19,11 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     saveUser: (state, action: PayloadAction<{user: Partial<AdminUserI>}>) => {
-      state = {
-        ...state,
-        ...action.payload.user
-      }
+      const { email, name, id, idCinema } = action.payload.user;
+      state.email = email || state.email; // Only update if provided in payload
+      state.name = name || state.name; // Only update if provided in payload
+      state.id = id || state.id; // Only update if provided in payload
+      state.idCinema = idCinema || state.idCinema; // Only update if provided in payload
     },
     removeUser: (state) => {
       state = {

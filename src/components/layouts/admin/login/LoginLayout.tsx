@@ -48,9 +48,7 @@ const AdminLoginLayout = () => {
         saveUser({
           user: {
             id: result.user.uid,
-            name: userData.user.name,
-            email: userData.user.email,
-            idCinema: userData.user.idCinema,
+            ...userData.user
           },
         })
       );

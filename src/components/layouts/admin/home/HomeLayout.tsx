@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 const AdminHomeLayout = () => {
   const router = useRouter();
   const handleAddMovie = () => {
-    router.push("/home");
+    router.push("/admin/addMovie");
   };
   return (
     <main>
