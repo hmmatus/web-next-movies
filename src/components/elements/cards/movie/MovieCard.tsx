@@ -1,25 +1,48 @@
 import { MovieI } from "@/models/movie";
+import { useAppSelector } from "@/redux/hooks";
+import { Colors } from "@/styles/colors";
 import Image from "next/image";
-import Link from "next/link";
+import { AiOutlineLike } from "react-icons/ai";
+import { AiFillLike } from "react-icons/ai";
 
 type MovieCardP = {
   movie: MovieI;
   onClick(): void;
+  isLiked: boolean;
+  onPressLike(): void;
 };
-const MovieCard = ({ movie, onClick }: MovieCardP) => {
+const MovieCard = ({ movie, onClick, onPressLike, isLiked }: MovieCardP) => {
+  const {id} = useAppSelector(state => state.user);
   return (
     <div className="flex flex-col justify-between rounded-lg shadow-md p-2">
-      <Image src={movie.image} alt={"Image"} width={"100"} height={"100"} />
-      <div>
-        <h1 className="text-xl font-bold">{movie.title}</h1>
-        <p className="text-lg">{movie.description}</p>
+      <Image
+        className="self-center"
+        src={movie.image}
+        alt={"Image"}
+        width={200}
+        height={200}
+      />
+      <div className="flex items-center justify-evenly">
+        <div>
+          <h1 className="text-2xl font-bold">{movie.title}</h1>
+          <p className="text-xl mb-4">{movie.description}</p>
+        </div>
+        <div className={`${!!id ? "": "hidden"} hover:cursor-pointer`} onClick={onPressLike}>
+          {isLiked ? (
+            <AiFillLike size={30} color={Colors.primary} />
+          ) : (
+            <AiOutlineLike size={30} color={Colors.primary} />
+          )}
+        </div>
       </div>
-      <h3
-        className="text-lg font-bold text-primary hover:cursor-pointer"
-        onClick={onClick}
-      >
-        Read more
-      </h3>
+      <div className="hover:cursor-pointer">
+        <h3
+          className="text-2xl font-bold text-primary"
+          onClick={onClick}
+        >
+          Read more
+        </h3>
+      </div>
     </div>
   );
 };
