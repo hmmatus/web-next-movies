@@ -1,1 +1,1 @@
-export const menuOptions = [{ key: "home", route: "/" }, { key: "products", route: "/products" }];
+export const menuOptions = [{ key: "home", route: "/" }, { key: "Admin", route: "/admin/login" }];

@@ -19,14 +19,13 @@ export const authSlice = createSlice({
       state.jwt = action.payload.jwt;
       state.isLoggedIn = true;
     },
-    removeJwt: (state) => {
-      state = {
-        ...initialState
-      }
+    logout: (state) => {
+      state.jwt=""
+      state.isLoggedIn=false;
     },
   },
 });
 
-export const { saveJwt, removeJwt  } = authSlice.actions;
+export const { saveJwt, logout  } = authSlice.actions;
 
 export default authSlice.reducer;

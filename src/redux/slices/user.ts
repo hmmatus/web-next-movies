@@ -29,9 +29,11 @@ export const userSlice = createSlice({
       state.role = UserRole[role as UserRole];
     },
     removeUser: (state) => {
-      state = {
-        ...initialState
-      }
+      state.email = initialState.email;
+      state.name = initialState.name;
+      state.id = initialState.id;
+      state.idCinema = initialState.idCinema;
+      state.role = initialState.role;
     },
   },
 });

@@ -1,8 +1,8 @@
 "use client";
 import { UserRole } from "@/models/user";
 import { useAppSelector } from "@/redux/hooks";
-import { redirect } from "next/navigation";
-import { ReactNode } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { ReactNode, useEffect } from "react";
 
 type Props = {
   children: ReactNode;
@@ -10,11 +10,14 @@ type Props = {
 };
 const ProtectedRoute = ({ children, userRoles }: Props) => {
   const { isLoggedIn } = useAppSelector((state) => state.auth);
-
-  if (!isLoggedIn) {
-    // Redirect to the login page if the user is not authenticated
-    redirect(`/${userRoles.includes(UserRole.admin) ? "admin/" : ""}login`);
-  }
+  const router = useRouter();
+  useEffect(() => {
+    console.log("🚀 ~ ProtectedRoute ~ isLoggedIn:", isLoggedIn)
+    if (!isLoggedIn) {
+      // Redirect to the login page if the user is not authenticated
+      router.push(`/${userRoles.includes(UserRole.admin) ? "admin/" : ""}login`);
+    }
+  }, [isLoggedIn, router, userRoles]);
 
   return <>{children}</>;
 };

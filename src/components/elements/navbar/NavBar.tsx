@@ -2,23 +2,24 @@
 import { menuOptions } from "@/utils/menuOptions";
 import useScreenSize from "@/utils/screenSize";
 import Link from "next/link";
-import CartButton, { CartButtonT } from "../buttons/cartButton/CardButton";
-import { useAppSelector } from "@/redux/hooks";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { MdOutlineMenu, MdMenuOpen } from "react-icons/md";
 import styles from "./style.module.css";
 import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { removeUser } from "@/redux/slices/user";
+import { logout } from "@/redux/slices/auth";
 
 const MobileMenu = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
+  const dispatch = useAppDispatch();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
-  const mobileMenu = [
-    ...menuOptions,
-  ]
+  const mobileMenu = [...menuOptions];
 
   return (
     <>
@@ -50,13 +51,24 @@ const MobileMenu = () => {
               {elto.key.toUpperCase()}
             </Link>
           ))}
+          {isLoggedIn && (
+            <button
+              className="text-white hover:text-black text-xl block m-4"
+              onClick={() => {
+                dispatch(removeUser());
+                dispatch(logout());
+              }}
+            >
+              Logout
+            </button>
+          )}
         </div>
       )}
     </>
   );
 };
 const LaptopMenu = () => {
-  const [options] = useState(menuOptions)
+  const [options] = useState(menuOptions);
   return (
     <div className="flex items-center">
       {options.map((elto) => (
@@ -75,7 +87,7 @@ const NavBar = () => {
   const currentScreenSize = useScreenSize();
   const [screenSize, setScreenSize] = useState({
     width: 0,
-    height: 0
+    height: 0,
   });
 
   const router = useRouter();
@@ -85,17 +97,19 @@ const NavBar = () => {
   };
   useEffect(() => {
     setScreenSize(currentScreenSize);
-  }, [currentScreenSize])
+  }, [currentScreenSize]);
   return (
     <nav className="bg-primary min-h-20 px-4 flex justify-between items-center ">
       <button onClick={() => router.replace("/")}>
-        <Image loading="lazy" alt="logo" width={80} height={80} src={"/images/logo.png"} />
+        <Image
+          loading="lazy"
+          alt="logo"
+          width={80}
+          height={80}
+          src={"/images/logo.png"}
+        />
       </button>
-      {screenSize?.width >= 1024 ? (
-        <LaptopMenu />
-      ) : (
-        <MobileMenu />
-      )}
+      {screenSize?.width >= 1024 ? <LaptopMenu /> : <MobileMenu />}
     </nav>
   );
 };
