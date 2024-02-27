@@ -15,5 +15,8 @@ export const movieService = {
     return service.post(movieRoutes.uploadPicture(), formData, {
       'Content-Type': 'multipart/form-data'
     })
+  },
+  getMovies: (idCinema: string) => {
+    return service.get(movieRoutes.getMovies(idCinema))
   }
 }

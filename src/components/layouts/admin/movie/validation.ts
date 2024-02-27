@@ -17,6 +17,6 @@ export const movieSchema = yup.object({
   })
   .test('fileSize', 'File size is too large', (value) => {
     const fileValue = value as CustomFileObject | undefined;
-    return fileValue && fileValue.size <= 2000 * 2000;
+    return fileValue && fileValue.size <= 5000 * 5000;
   })
 });

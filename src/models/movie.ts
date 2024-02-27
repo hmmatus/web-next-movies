@@ -5,6 +5,7 @@ export interface CustomFileObject {
 }
 
 export interface MovieI {
+  id: string;
   title: string;
   description: string;
   image: string;

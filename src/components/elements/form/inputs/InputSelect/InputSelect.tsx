@@ -1,3 +1,4 @@
+import { InputHTMLAttributes } from "react";
 import InputWrapper from "../InputWrapper/InputWrapper";
 
 export type OptionsP = {
@@ -11,6 +12,7 @@ type Props = {
   onChange(value: string): void;
   name: string;
   options: Array<OptionsP>;
+  selectStyleProps?: InputHTMLAttributes<HTMLSelectElement>;
 };
 const InputSelect = ({
   title,
@@ -19,6 +21,7 @@ const InputSelect = ({
   onChange,
   name,
   options,
+  selectStyleProps
 }: Props) => {
   const onChangeValue = (e: React.FormEvent<HTMLSelectElement>) => {
     onChange(e.currentTarget.value);
@@ -32,6 +35,7 @@ const InputSelect = ({
         name="select"
         onChange={onChangeValue}
         defaultValue={value}
+        style={selectStyleProps}
       >
         {options.map((option) => (
           <option key={option.name} value={option.value}>

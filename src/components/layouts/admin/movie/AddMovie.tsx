@@ -49,7 +49,7 @@ const AddMovieLayout = () => {
         ...data,
         image: imageResult.url,
       });
-      toast("User has been created successfully");
+      toast("Movie has been created successfully");
       router.replace("/admin/home");
     } catch (error) {
       console.log("🚀 ~ onAddMovie ~ error:", error);
@@ -69,7 +69,7 @@ const AddMovieLayout = () => {
             control={control}
             render={({ field }) => (
               <InputFile
-                title="Profile photo"
+                title="Movie photo"
                 name={field.name}
                 value={field.value}
                 onChange={(value) => field.onChange(value)}
@@ -88,6 +88,7 @@ const AddMovieLayout = () => {
                 value={field.value}
                 onChange={(value) => field.onChange(value)}
                 errorMessage={errors.title?.message}
+                inputProps={{disabled: loading}}
               />
             )}
           />
@@ -102,6 +103,7 @@ const AddMovieLayout = () => {
                 value={field.value}
                 onChange={(value) => field.onChange(value)}
                 errorMessage={errors.description?.message}
+                inputProps={{disabled: loading}}
               />
             )}
           />
@@ -116,6 +118,7 @@ const AddMovieLayout = () => {
                 value={field.value}
                 onChange={(value) => field.onChange(value)}
                 errorMessage={errors.stock?.message}
+                inputProps={{disabled: loading}}
               />
             )}
           />
@@ -131,6 +134,7 @@ const AddMovieLayout = () => {
                 value={field.value}
                 onChange={(value) => field.onChange(value)}
                 errorMessage={errors.saleAmount?.message}
+                inputProps={{disabled: loading}}
               />
             )}
           />
@@ -145,6 +149,7 @@ const AddMovieLayout = () => {
                 value={field.value}
                 onChange={(value) => field.onChange(value)}
                 errorMessage={errors.rentAmount?.message}
+                inputProps={{disabled: loading}}
               />
             )}
           />
@@ -161,6 +166,7 @@ const AddMovieLayout = () => {
                 onChange={(value) => field.onChange(value)}
                 errorMessage={errors.availability?.message}
                 options={availabilityOptions}
+                selectStyleProps={{disabled: loading}}
               />
             )}
           />
