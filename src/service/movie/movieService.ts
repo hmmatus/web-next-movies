@@ -18,5 +18,8 @@ export const movieService = {
   },
   getMovies: (idCinema: string) => {
     return service.get(movieRoutes.getMovies(idCinema))
+  },
+  getMovieById: (idCinema: string, idMovie: string) => {
+    return service.get(movieRoutes.getMovieById(idCinema, idMovie));
   }
 }

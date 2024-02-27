@@ -1,4 +1,4 @@
-import { AdminUserI, UserI } from "@/models/user";
+import { AdminUserI, UserI, UserRole } from "@/models/user";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface UserSliceI  {
@@ -6,12 +6,14 @@ interface UserSliceI  {
   id: string;
   name: string;
   idCinema: string;
+  role: UserRole;
 }
 const initialState: UserSliceI = {
   email: "",
   name: "",
   id: "",
-  idCinema: ""
+  idCinema: "",
+  role: UserRole.customer
 };
 
 export const userSlice = createSlice({
@@ -19,11 +21,12 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     saveUser: (state, action: PayloadAction<{user: Partial<AdminUserI>}>) => {
-      const { email, name, id, idCinema } = action.payload.user;
+      const { email, name, id, idCinema, role } = action.payload.user;
       state.email = email || state.email; // Only update if provided in payload
       state.name = name || state.name; // Only update if provided in payload
       state.id = id || state.id; // Only update if provided in payload
       state.idCinema = idCinema || state.idCinema; // Only update if provided in payload
+      state.role = UserRole[role as UserRole];
     },
     removeUser: (state) => {
       state = {

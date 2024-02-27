@@ -6,4 +6,5 @@ export const  Colors = {
   "table-background-primary": "#fafafa",
   'error': "#dd2c00",
   'focus': "#2fa6ff",
+  'warning': "#ffcc00",
 }

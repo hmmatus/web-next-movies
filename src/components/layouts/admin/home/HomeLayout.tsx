@@ -27,6 +27,13 @@ const AdminHomeLayout = () => {
       setLoading(false);
     }
   }
+
+  const moveToDetails = (idMovie: string) => {
+    const params = new URLSearchParams();
+    params.set("idCinema", idCinema);
+    params.set("idMovie", idMovie);
+    router.push(`/admin/movie/detail?${params.toString()}`);
+  };
   useEffect(() => {
     getMovies(idCinema);
   }, []);
@@ -42,7 +49,7 @@ const AdminHomeLayout = () => {
             <MovieCard
               key={movie.id}
               movie={movie}
-              onClick={() => console.log("pressed")}
+              onClick={() => moveToDetails(movie.id)}
             />
           ))}
         </div>
