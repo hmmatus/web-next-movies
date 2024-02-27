@@ -61,7 +61,7 @@ const AdminLoginLayout = () => {
   };
 
   const handleCinemaRegister = () => {
-    router.push("/registerCinema");
+    router.push("/admin/addCinema");
   }
 
   function onChangeValue(index: string, value: string) {
@@ -105,7 +105,7 @@ const AdminLoginLayout = () => {
           <MainButton
             type="button"
             title="Register a cinema"
-            className="w-full mx-2"
+            className="w-full mx-2 mt-2"
             onClick={handleCinemaRegister}
           />
         </div>
