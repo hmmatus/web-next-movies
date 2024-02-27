@@ -12,13 +12,20 @@ export enum UserRole {
 }
 
 export interface AdminUserI extends UserI {
-  cinemaId: string;
+  idCinema: string;
 }
 
-export interface SignUpUserI {
+export interface SignUpAdminUserI {
   email: string;
   name: string;
   password: string;
   confirmPassword:string;
-  cinemaId?: string;
+  idCinema: string;
+}
+
+export interface SignUpUserI {
+  name: string;
+  email: string;
+  password: string;
+  role?: UserRole;
 }

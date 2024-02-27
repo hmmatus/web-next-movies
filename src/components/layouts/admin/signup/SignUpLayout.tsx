@@ -8,15 +8,17 @@ import { signupSchema } from "./validation";
 import InputSelect, {
   OptionsP,
 } from "@/components/elements/form/inputs/InputSelect/InputSelect";
-import { SignUpUserI, UserI, UserRole } from "@/models/user";
+import { SignUpAdminUserI, UserI, UserRole } from "@/models/user";
 import { CinemaI } from "@/models/cinema";
 import { userService } from "@/service/user/userService";
 import { cinemaService } from "@/service/cinema/cinemaService";
 import LoadingComponent from "../../loading/LoadingLayout";
+import { useRouter } from "next/navigation";
 
 const AdminSignUpLayout = () => {
   const [cinemaOptions, setCinemaOptions] = useState<OptionsP[]>([]);
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -25,17 +27,17 @@ const AdminSignUpLayout = () => {
     resolver: yupResolver(signupSchema),
   });
 
-  const onRegister = async (data: SignUpUserI) => {
+  const onRegister = async (data: SignUpAdminUserI) => {
     setLoading(true);
     try {
-      const result = await userService.signUp({
+      await userService.signUp({
         name: data.name,
         email: data.email,
-        cinemaId: data.cinemaId,
+        idCinema: data.idCinema,
         password: data.password,
         role: UserRole.admin,
       });
-      console.log(result);
+      router.back();
     } catch (error) {
       console.log(`${error}`);
     } finally {
@@ -60,7 +62,7 @@ const AdminSignUpLayout = () => {
     }
   }
 
-  const onSubmit: SubmitHandler<SignUpUserI> = (data) => {
+  const onSubmit: SubmitHandler<SignUpAdminUserI> = (data) => {
     onRegister(data);
   };
 

@@ -1,4 +1,4 @@
-import { UserI } from "@/models/user";
+import { AdminUserI, UserI } from "@/models/user";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface UserSliceI  {
@@ -16,7 +16,7 @@ export const userSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    saveUser: (state, action: PayloadAction<{user: Partial<UserI>}>) => {
+    saveUser: (state, action: PayloadAction<{user: Partial<AdminUserI>}>) => {
       state = {
         ...state,
         ...action.payload.user

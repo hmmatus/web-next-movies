@@ -1,9 +1,9 @@
-import { AdminUserI, UserI } from "@/models/user";
+import { AdminUserI, SignUpAdminUserI, SignUpUserI, UserI } from "@/models/user";
 import { service } from "../config";
 import { userRoutes } from "./userRoutes";
 
 export const userService = {
-  signUp: (data: AdminUserI | UserI) => {
+  signUp: (data: SignUpAdminUserI | SignUpUserI) => {
     return service.post(userRoutes.register(), {
       ...data,
     });

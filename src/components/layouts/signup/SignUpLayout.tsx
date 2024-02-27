@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm, Controller } from "react-hook-form";
 import { signupSchema } from "./validation";
 
-import { SignUpUserI, UserI, UserRole } from "@/models/user";
+import { SignUpAdminUserI, SignUpUserI, UserI, UserRole } from "@/models/user";
 import { CinemaI } from "@/models/cinema";
 import { userService } from "@/service/user/userService";
 import { cinemaService } from "@/service/cinema/cinemaService";
@@ -27,7 +27,6 @@ const SignUpLayout = () => {
       const result = await userService.signUp({
         name: data.name,
         email: data.email,
-        cinemaId: data.cinemaId,
         password: data.password,
         role: UserRole.customer,
       });
