@@ -7,6 +7,7 @@ import SearchInput from "@/components/elements/inputs/searchInput/SearchInput";
 import { MovieI } from "@/models/movie";
 import { useAppSelector } from "@/redux/hooks";
 import { movieService } from "@/service/movie/movieService";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -20,6 +21,7 @@ const MoviesLayout = () => {
   const [searchValue, setSearchValue] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
   const { id: cinemaId } = useAppSelector((state) => state.cinema);
+  const router = useRouter();
 
   const getMovies = async () => {
     setLoading(true);
@@ -30,8 +32,11 @@ const MoviesLayout = () => {
       toast.error("There was an error, try later");
     }
   };
-  const moveToDetails = (movieId: string) => {
-    
+  const moveToDetails = (idMovie: string) => {
+    const params = new URLSearchParams();
+    params.set("idCinema", cinemaId);
+    params.set("idMovie", idMovie);
+    router.push(`/detail?${params.toString()}`);
   };
 
   useEffect(() => {

@@ -12,6 +12,7 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { UserRole } from "@/models/user";
 type loginDataP = {
   email: string;
   password: string;
@@ -42,10 +43,11 @@ const LoginLayout = () => {
         user: {
           id: result.user.uid,
           name: userData.user.name,
-          email: userData.user.email
+          email: userData.user.email,
+          role: UserRole.customer
         }
       }));
-      router.replace("/home");
+      router.replace("/");
     } catch (error) {
       console.log("🚀 ~ handleLogin ~ error:", error);
     } finally {
