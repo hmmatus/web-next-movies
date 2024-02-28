@@ -32,7 +32,7 @@ const AdminHomeLayout = () => {
     const params = new URLSearchParams();
     params.set("idCinema", idCinema);
     params.set("idMovie", idMovie);
-    router.push(`/admin/movie/detail?${params.toString()}`);
+    router.push(`/detail?${params.toString()}`);
   };
   useEffect(() => {
     getMovies(idCinema);

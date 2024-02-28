@@ -11,13 +11,16 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { removeUser } from "@/redux/slices/user";
 import { logout } from "@/redux/slices/auth";
 
-const MobileMenu = () => {
+type MenuP = {
+  isLoggedIn: boolean;
+  onLogin(): void;
+  onLogout(): void;
+};
+const MobileMenu = ({ isLoggedIn, onLogin, onLogout }: MenuP) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
-  const dispatch = useAppDispatch();
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const mobileMenu = [...menuOptions];
 
@@ -51,15 +54,19 @@ const MobileMenu = () => {
               {elto.key.toUpperCase()}
             </Link>
           ))}
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <button
               className="text-white hover:text-black text-xl block m-4"
-              onClick={() => {
-                dispatch(removeUser());
-                dispatch(logout());
-              }}
+              onClick={onLogout}
             >
               Logout
+            </button>
+          ) : (
+            <button
+              className="text-white hover:text-black text-xl block m-4"
+              onClick={onLogin}
+            >
+              Login
             </button>
           )}
         </div>
@@ -67,7 +74,7 @@ const MobileMenu = () => {
     </>
   );
 };
-const LaptopMenu = () => {
+const LaptopMenu = ({ isLoggedIn, onLogin, onLogout }: MenuP) => {
   const [options] = useState(menuOptions);
   return (
     <div className="flex items-center">
@@ -80,6 +87,21 @@ const LaptopMenu = () => {
           {elto.key.toUpperCase()}
         </Link>
       ))}
+      {isLoggedIn ? (
+        <button
+          className="text-white hover:text-black text-xl block m-4"
+          onClick={onLogout}
+        >
+          Logout
+        </button>
+      ) : (
+        <button
+          className="text-white hover:text-black text-xl block m-4"
+          onClick={onLogin}
+        >
+          Login
+        </button>
+      )}
     </div>
   );
 };
@@ -89,11 +111,18 @@ const NavBar = () => {
     width: 0,
     height: 0,
   });
+  const dispatch = useAppDispatch();
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
 
   const router = useRouter();
 
-  const onClickCart = () => {
-    router.push("/cart");
+  const onLogout = () => {
+    dispatch(removeUser());
+    dispatch(logout());
+  };
+
+  const onLogin = () => {
+    router.push("/login");
   };
   useEffect(() => {
     setScreenSize(currentScreenSize);
@@ -109,7 +138,19 @@ const NavBar = () => {
           src={"/images/logo.png"}
         />
       </button>
-      {screenSize?.width >= 1024 ? <LaptopMenu /> : <MobileMenu />}
+      {screenSize?.width >= 1024 ? (
+        <LaptopMenu
+          isLoggedIn={isLoggedIn}
+          onLogin={onLogin}
+          onLogout={onLogout}
+        />
+      ) : (
+        <MobileMenu
+          isLoggedIn={isLoggedIn}
+          onLogin={onLogin}
+          onLogout={onLogout}
+        />
+      )}
     </nav>
   );
 };

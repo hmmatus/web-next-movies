@@ -23,7 +23,7 @@ async function PageContent() {
   const idMovie = params.get("idMovie") || "";
   try {
     const data = await getMovie(idCinema, idMovie);
-    return <MovieDetailLayout movie={data} />;
+    return <MovieDetailLayout movie={data} idCinema={idCinema} />;
   } catch (error) {
     return <ErrorLayout error={`${error}`} reset={() => {}} />;
   }
@@ -31,9 +31,7 @@ async function PageContent() {
 export default function Page() {
   return (
     <Suspense fallback={<LoadingComponent />}>
-      <ProtectedRoute userRoles={[UserRole.admin]}>
-        <PageContent />
-      </ProtectedRoute>
+      <PageContent />
     </Suspense>
   );
 }
