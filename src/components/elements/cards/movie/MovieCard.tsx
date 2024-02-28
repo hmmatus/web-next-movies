@@ -1,4 +1,5 @@
 import { MovieI } from "@/models/movie";
+import { UserRole } from "@/models/user";
 import { useAppSelector } from "@/redux/hooks";
 import { Colors } from "@/styles/colors";
 import Image from "next/image";
@@ -8,11 +9,12 @@ import { AiFillLike } from "react-icons/ai";
 type MovieCardP = {
   movie: MovieI;
   onClick(): void;
-  isLiked: boolean;
-  onPressLike(): void;
+  isLiked?: boolean;
+  onPressLike?(): void;
 };
 const MovieCard = ({ movie, onClick, onPressLike, isLiked }: MovieCardP) => {
-  const {id} = useAppSelector(state => state.user);
+  const {id, role} = useAppSelector(state => state.user);
+  const isCustomer = !!id && UserRole.customer === role
   return (
     <div className="flex flex-col justify-between rounded-lg shadow-md p-2">
       <Image
@@ -27,7 +29,7 @@ const MovieCard = ({ movie, onClick, onPressLike, isLiked }: MovieCardP) => {
           <h1 className="text-2xl font-bold">{movie.title}</h1>
           <p className="text-xl mb-4">{movie.description}</p>
         </div>
-        <div className={`${!!id ? "": "hidden"} hover:cursor-pointer`} onClick={onPressLike}>
+        <div className={`${isCustomer ? "": "hidden"} hover:cursor-pointer`} onClick={onPressLike}>
           {isLiked ? (
             <AiFillLike size={30} color={Colors.primary} />
           ) : (
