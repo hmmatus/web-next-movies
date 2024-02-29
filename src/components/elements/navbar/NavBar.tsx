@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { removeUser } from "@/redux/slices/user";
 import { logout } from "@/redux/slices/auth";
+import { axiosInstance } from "@/service/config";
 
 type MenuP = {
   isLoggedIn: boolean;
@@ -119,6 +120,8 @@ const NavBar = () => {
   const onLogout = () => {
     dispatch(removeUser());
     dispatch(logout());
+    axiosInstance.defaults.headers.common['Authorization'] = "";
+    router.replace("/login");
   };
 
   const onLogin = () => {
