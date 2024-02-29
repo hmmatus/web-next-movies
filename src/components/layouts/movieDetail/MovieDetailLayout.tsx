@@ -23,7 +23,7 @@ type HeaderComponentP = {
 
 const MovieDetailLayout = ({ movie, idCinema }: MovieDetailP) => {
   const { role, id: idUser } = useAppSelector((state) => state.user);
-  const {isLoggedIn} = useAppSelector((state) => state.auth);
+  const { isLoggedIn } = useAppSelector((state) => state.auth);
   console.log("🚀 ~ MovieDetailLayout ~ role:", role);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const router = useRouter();
@@ -97,7 +97,11 @@ const MovieDetailLayout = ({ movie, idCinema }: MovieDetailP) => {
           <HeaderComponent label="Sale Amount" value={movie.saleAmount} />
           <HeaderComponent label="Stock" value={movie.stock} />
 
-          <div className={`${isLoggedIn && role === UserRole.admin ? "flex" : "hidden"}`}>
+          <div
+            className={`${
+              isLoggedIn && role === UserRole.admin ? "flex" : "hidden"
+            }`}
+          >
             <button onClick={onEdit} className="border rounded-lg mr-2">
               <MdEdit color={Colors.warning} size={40} />
             </button>
@@ -108,7 +112,11 @@ const MovieDetailLayout = ({ movie, idCinema }: MovieDetailP) => {
               <MdDelete color={Colors.error} size={40} />
             </button>
           </div>
-          <div className={`${isLoggedIn && role === UserRole.customer ? "flex" : "hidden"}`}>
+          <div
+            className={`${
+              isLoggedIn && role === UserRole.customer ? "flex" : "hidden"
+            }`}
+          >
             <button
               onClick={onRent}
               className="border border-1 p-2 hover:bg-primary hover:text-white rounded-lg mr-2 text-xl"
