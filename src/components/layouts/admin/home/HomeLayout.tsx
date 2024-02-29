@@ -60,14 +60,11 @@ const AdminHomeLayout = () => {
     return <LoadingComponent />;
   }
   return (
-    <main>
-      <div className="flex flex-col items-center justify-center mt-2 p-4">
-        <MainButton
-          title="Add movie"
-          onClick={handleAddMovie}
-        />
-        <div className="overflow-x-auto md:overflow-x-hidden">
-          <table className="table-auto min-w-max">
+    <main className="mt-2 p-4">
+      <div className=" flex flex-col items-center justify-center overflow-x-auto">
+        <MainButton title="Add movie" onClick={handleAddMovie} />
+        <div className="max-w-full overflow-x-auto">
+          <table className="table-auto">
             <thead>
               <tr>
                 <th className="px-4 py-2">Image</th>
@@ -79,7 +76,7 @@ const AdminHomeLayout = () => {
                 <th className="px-4 py-2">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200 bg-white">
+            <tbody>
               {movies.map((movie: MovieI) => (
                 <tr key={movie.id}>
                   <td className="border px-4 py-2">
@@ -96,7 +93,7 @@ const AdminHomeLayout = () => {
                   <td className="border px-4 py-2">{movie.saleAmount}</td>
                   <td className="border px-4 py-2">{movie.rentAmount}</td>
                   <td className="border px-4 py-2">
-                    <div>
+                    <div className="flex">
                       <button
                         onClick={onEdit}
                         className="border rounded-lg mr-2"
@@ -119,6 +116,7 @@ const AdminHomeLayout = () => {
           </table>
         </div>
       </div>
+
       <CustomModal
         title={`Delete`}
         description="Are you sure you want to delete it?"
