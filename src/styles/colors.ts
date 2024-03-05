@@ -7,4 +7,5 @@ export const  Colors = {
   'error': "#dd2c00",
   'focus': "#2fa6ff",
   'warning': "#ffcc00",
+  like: "#9c0404",
 }

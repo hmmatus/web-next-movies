@@ -8,7 +8,7 @@ export interface UserI {
 
 export enum UserRole {
   admin = "admin",
-  customer = "customer"
+  user = "user"
 }
 
 export interface AdminUserI extends UserI {
