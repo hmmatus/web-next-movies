@@ -2,7 +2,6 @@ export interface UserI {
   id: string;
   name: string;
   email: string;
-  password: string;
   role: UserRole;
 }
 
@@ -28,4 +27,11 @@ export interface SignUpUserI {
   email: string;
   password: string;
   role?: UserRole;
+}
+
+export interface GetUserResponseI {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
 }

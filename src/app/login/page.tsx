@@ -7,7 +7,9 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { notification } from "antd";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "next/navigation";
-import firebaseApp from "@/firebase/config"; 
+import firebaseApp from "@/firebase/config";
+import { userService } from "@/service/user/userService";
+import { saveUser } from "@/redux/slices/user";
 
 async function loginQuery(data: { email: string; password: string }) {
   const auth = getAuth(firebaseApp);
@@ -16,9 +18,13 @@ async function loginQuery(data: { email: string; password: string }) {
     data.email,
     data.password
   );
-  const idToken = userCredential.user.getIdToken();
-  axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${idToken}`;
-  return idToken
+  const idToken = await userCredential.user.getIdToken();
+  axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${idToken}`;
+  const result = await userService.getUser(userCredential.user.uid);
+  return {
+    jwt: idToken,
+    user: result.user,
+  };
 }
 
 export default function Page() {
@@ -27,30 +33,30 @@ export default function Page() {
 
   const mutation = useMutation({
     mutationFn: loginQuery,
-    onSuccess: (token) => {
+    onSuccess: (data) => {
       dispatch(
         saveJwt({
-          jwt: token,
+          jwt: data.jwt,
         })
       );
+      dispatch(saveUser({ user: data.user }));
       notification.success({
         message: `Login successfully`,
         placement: "topRight",
       });
     },
     onError: (error) => {
-      let errorMessage="";
+      let errorMessage = "";
       if ((error as Error).message.includes("invalid-credential")) {
-        errorMessage = "Invalid Credentials"
+        errorMessage = "Invalid Credentials";
       } else {
         errorMessage = (error as Error).message;
       }
-    notification.error({
-      message: `${errorMessage}`,
-      placement: "topRight"
-    })
-
-    }
+      notification.error({
+        message: `${errorMessage}`,
+        placement: "topRight",
+      });
+    },
   });
 
   return (
@@ -59,8 +65,7 @@ export default function Page() {
       handleSignIn={() => router.push("/signIn")}
       handleForgotPassword={() => router.push("/forgot")}
       handleLogin={(data) => {
-        console.log("🚀 ~ Page ~ data:", data)
-        mutation.mutate(data)
+        mutation.mutate(data);
       }}
     />
   );

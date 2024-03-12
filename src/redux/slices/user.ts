@@ -5,27 +5,32 @@ interface UserSliceI  {
   email: string;
   id: string;
   name: string;
-  idCinema: string;
   role: UserRole | null;
 }
 const initialState: UserSliceI = {
   email: "",
   name: "",
   id: "",
-  idCinema: "",
   role: null,
 };
 
 export const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
-    saveUser: (state, action: PayloadAction<{user: Partial<AdminUserI>}>) => {
-      const { id } = action.payload.user;
-
+    saveUser: (state, action: PayloadAction<{user: UserI}>) => {
+      console.log(action.payload)
+      const { id, name, email, role } = action.payload.user;
+      state.id = id;
+      state.name = name;
+      state.email = email;
+      state.role = role;
     },
     removeUser: (state) => {
       state.id = initialState.id;
+      state.name = initialState.name;
+      state.email = initialState.email;
+      state.role = initialState.role;
     },
   },
 });
