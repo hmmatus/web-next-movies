@@ -46,8 +46,8 @@ const MovieCard = ({
     return <MovieSkeleton />;
   }
   return (
-    <Flex vertical>
-      <div className="relative flex flex-3" style={{width: "100%", height: "300px"}}>
+    <Flex vertical className="border">
+      <div className="relative flex flex-3" style={{width: "100%", height: "500px"}}>
         <Image alt={`${movie.title}`} src={movie.image} fill loading="lazy" />
         <div className={`${!isUser ? "hidden" : "absolute"} top-2 left-2`}>
           <HeartIcon isLiked={true} />
@@ -56,6 +56,7 @@ const MovieCard = ({
       <div className="flex flex-1 flex-col gap-2 p-4">
         <h1>{movie.title}</h1>
         <p>{movie.description}</p>
+        <p className="self-end underline text-primary cursor-pointer">Read More</p>
       </div>
     </Flex>
   );
