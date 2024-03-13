@@ -35,3 +35,11 @@ export interface GetUserResponseI {
   email: string;
   role: UserRole;
 }
+
+export interface RegisterUserI {
+  id?: string;
+  email: string;
+  name: string;
+  password: string;
+  role?: "user"
+}

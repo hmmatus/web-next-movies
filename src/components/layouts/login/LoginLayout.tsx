@@ -4,13 +4,13 @@ import { useState } from "react";
 
 type LoginLayoutP = {
   handleLogin(data: { email: string; password: string }): void;
-  handleSignIn(): void;
+  handleSignUp(): void;
   handleForgotPassword(): void;
   loading?: boolean;
 };
 const LoginLayout = ({
   handleLogin,
-  handleSignIn,
+  handleSignUp,
   handleForgotPassword,
   loading = false,
 }: LoginLayoutP) => {
@@ -61,7 +61,7 @@ const LoginLayout = ({
           >
             Login
           </Button>
-          <Button onClick={handleSignIn} disabled={loading}>
+          <Button onClick={handleSignUp} disabled={loading}>
             Sign in
           </Button>
         </div>

@@ -62,7 +62,7 @@ export default function Page() {
   return (
     <LoginLayout
       loading={mutation.isPending}
-      handleSignIn={() => router.push("/signIn")}
+      handleSignUp={() => router.push("/register")}
       handleForgotPassword={() => router.push("/forgot")}
       handleLogin={(data) => {
         mutation.mutate(data);
