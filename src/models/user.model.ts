@@ -41,8 +41,9 @@ export interface RegisterUserI {
   email: string;
   name: string;
   password: string;
-  role?: "user"
+  role?: UserRole
 }
+
 
 export interface GetMovieFilters {
   orderBy: "default" | "likes";

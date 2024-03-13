@@ -21,7 +21,7 @@ async function loginQuery(data: { email: string; password: string }) {
   );
   const idToken = await userCredential.user.getIdToken();
   axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${idToken}`;
-  const result = await adminService.getUser(idToken);
+  const result = await adminService.getUser(userCredential.user.uid);
   if (result.user.role !== UserRole.admin) {
     axiosInstance.defaults.headers.common["Authorization"] = ``;
     throw new Error("This user is not an admin");
@@ -64,6 +64,6 @@ export default function Page(){
     },
   });
   return (
-    <LoginLayout handleLogin={(data) => mutation.mutate(data)} handleSignUp={() => router.push('/admin/signUp')} loading={mutation.isPending} handleForgotPassword={() => router.push('/forgot')} />
+    <LoginLayout handleLogin={(data) => mutation.mutate(data)} handleSignUp={() => router.push('/admin/register')} loading={mutation.isPending} handleForgotPassword={() => router.push('/forgot')} />
   )
 }
