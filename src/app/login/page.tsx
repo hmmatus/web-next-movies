@@ -44,6 +44,7 @@ export default function Page() {
         message: `Login successfully`,
         placement: "topRight",
       });
+      router.replace("/");
     },
     onError: (error) => {
       let errorMessage = "";

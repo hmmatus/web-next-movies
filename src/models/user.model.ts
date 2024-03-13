@@ -43,3 +43,11 @@ export interface RegisterUserI {
   password: string;
   role?: "user"
 }
+
+export interface GetMovieFilters {
+  orderBy: "default" | "likes";
+  onlyAvailable: boolean;
+  searchValue: string;
+  limit: number;
+  currentPage: number;
+}
