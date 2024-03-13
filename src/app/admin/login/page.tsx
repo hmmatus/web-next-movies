@@ -48,7 +48,7 @@ export default function Page(){
         message: `Login successfully`,
         placement: "topRight",
       });
-      router.replace("/admin/home");
+      router.replace("/admin/dashboard");
     },
     onError: (error) => {
       let errorMessage = "";
