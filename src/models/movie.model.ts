@@ -37,3 +37,9 @@ export interface GetMovieResponseI {
   currentPage: number;
   pages:       number;
 }
+
+export interface CustomFileObject {
+  name: string;
+  type: string;
+  size: number;
+}

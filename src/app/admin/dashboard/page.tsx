@@ -6,6 +6,7 @@ import { movieService } from "@/service/movies/movieService";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Flex, Space, Table, TableColumnType } from "antd";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const columns: TableColumnType<MovieI>[] = [
@@ -54,7 +55,7 @@ async function getMoviesData(
 }
 export default function Page() {
   const [currentPage, setCurrentPage] = useState(1);
-
+  const router = useRouter();
   const { data, isError, isLoading, refetch } = useQuery({
     queryKey: ["moviesData"],
     queryFn: () =>
@@ -65,7 +66,9 @@ export default function Page() {
     retry: 2,
     enabled: true,
   });
-  const handleNewMovie = () => {};
+  const handleNewMovie = () => {
+    router.push("/admin/dashboard/addMovie");
+  };
   useEffect(() => {
     refetch();
   }, [currentPage]);
