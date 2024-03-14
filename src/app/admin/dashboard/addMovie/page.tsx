@@ -1,10 +1,13 @@
 "use client"
 import AddMovieLayout from "@/components/layouts/addMovie/AddMovieLayout";
+import { MovieI } from "@/models/movie.model";
 import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
 import { useRouter } from "next/navigation";
 
-async function addMovieQuery() {}
+async function addMovieQuery(data: MovieI) {
+  console.log(data);
+}
 
 export default function Page() {
   const router = useRouter();

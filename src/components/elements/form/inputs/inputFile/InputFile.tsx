@@ -1,7 +1,19 @@
 import InputWrapper from "@/components/wrappers/inputWrapper/InputWrapper";
+import { CustomFileObject } from "@/models/movie.model";
 import { InboxOutlined } from "@ant-design/icons";
-import Upload, { DraggerProps, UploadProps } from "antd/es/upload";
-import { Control, Controller, FieldValues, Path } from "react-hook-form";
+import Upload, {
+  DraggerProps,
+  UploadChangeParam,
+  UploadFile,
+  UploadProps,
+} from "antd/es/upload";
+import {
+  Control,
+  Controller,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 interface InputTextI<T extends FieldValues> extends DraggerProps {
   label: string;
   errorMessage: string;
@@ -11,26 +23,6 @@ interface InputTextI<T extends FieldValues> extends DraggerProps {
 
 const { Dragger } = Upload;
 const InputFile = <T extends FieldValues>(props: InputTextI<T>) => {
-  const uploadProps: UploadProps = {
-    name: "file",
-    multiple: false,
-    action: "https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188",
-    headers: {
-      authorization: "authorization-text",
-    },
-    onChange(info) {
-      console.log("🚀 ~ onChange ~ info:", info)
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
-      }
-      if (info.file.status === 'done') {
-        console.log(info.file, info.fileList);
-      }
-      else if (info.file.status === 'error') {
-        console.log(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
   return (
     <InputWrapper label={props.label} error={props.errorMessage}>
       <Controller
@@ -38,14 +30,20 @@ const InputFile = <T extends FieldValues>(props: InputTextI<T>) => {
         control={props.control}
         render={({ field, fieldState }) => (
           <Dragger
-            {...uploadProps}
-            onChange={field.onChange}
-            disabled={field.disabled}
             name={field.name}
+            customRequest={(info) => {
+              field.onChange(info.file);
+              return false;
+            }}
+            beforeUpload={() => {
+              return false;
+            }}
+            disabled={field.disabled}
             listType="picture"
             maxCount={1}
             ref={field.ref}
             defaultFileList={field.value || []}
+            multiple={false}
           >
             <div>
               <p className="ant-upload-drag-icon">

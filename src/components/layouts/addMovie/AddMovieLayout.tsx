@@ -6,25 +6,43 @@ import * as yup from "yup";
 import InputText from "@/components/elements/form/inputs/inputText/InputText";
 import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber";
 import InputFile from "@/components/elements/form/inputs/inputFile/InputFile";
+import { useEffect } from "react";
 
 type AddMovieLayoutP = {
   onAddMovie(data: any): void;
   loading: boolean;
 };
+
+const initialState = {
+  title: "",
+  description: "",
+  saleAmount: 1,
+  rentAmount: 1,
+  stock: 1,
+  image: {},
+  availability: false,
+}
 const AddMovieLayout = ({ onAddMovie, loading }: AddMovieLayoutP) => {
   const {
     control,
+    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm({
+    defaultValues: initialState,
     resolver: yupResolver(addMovieSchema),
   });
+  const values = getValues();
   const onSubmit: SubmitHandler<yup.InferType<typeof addMovieSchema>> = (
     data
   ) =>
     onAddMovie({
       ...data,
     });
+
+    useEffect(() => {
+      console.log(values);
+    }, [values])
   return (
     <Flex vertical className="p-4 md:mx-auto items-center md:justify-center">
       <form
@@ -58,25 +76,23 @@ const AddMovieLayout = ({ onAddMovie, loading }: AddMovieLayoutP) => {
         <CustomInputNumber
           label="Rent amount"
           name="rentAmount"
-          errorMessage={errors.rentAmount?.message || ""}
+          errorMessage={errors.rentAmount?.message ?? ""}
           control={control}
           disabled={loading}
           min={1}
-          defaultValue={1}
         />
         <CustomInputNumber
           label="Stock"
           name="stock"
-          errorMessage={errors.stock?.message || ""}
+          errorMessage={errors.stock?.message ?? ""}
           control={control}
           disabled={loading}
           min={1}
-          defaultValue={1}
         />
         <InputFile
           label="Image"
           name="image"
-          errorMessage={errors.image?.message || ""}
+          errorMessage={errors.image?.message ?? ""}
           control={control}
           disabled={loading}
         />

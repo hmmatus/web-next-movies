@@ -19,7 +19,6 @@ const LoginLayout = ({
     password: "",
   });
   const handleOnChange = (key: string, value: string) => {
-    console.log(`${key}: ${value}`);
     setLoginData({
       ...loginData,
       [key]: value,
