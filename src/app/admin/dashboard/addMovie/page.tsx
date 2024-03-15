@@ -1,12 +1,18 @@
 "use client"
 import AddMovieLayout from "@/components/layouts/addMovie/AddMovieLayout";
 import { MovieI } from "@/models/movie.model";
+import { movieService } from "@/service/movies/movieService";
 import { useMutation } from "@tanstack/react-query";
 import { notification } from "antd";
 import { useRouter } from "next/navigation";
 
 async function addMovieQuery(data: MovieI) {
-  console.log(data);
+  const url = await movieService.saveMovieImage(data.image);
+  await movieService.addMovie({
+    ...data,
+    image: url.url,
+  })
+  return;
 }
 
 export default function Page() {

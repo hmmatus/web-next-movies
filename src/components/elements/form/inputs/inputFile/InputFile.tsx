@@ -33,7 +33,6 @@ const InputFile = <T extends FieldValues>(props: InputTextI<T>) => {
             name={field.name}
             customRequest={(info) => {
               field.onChange(info.file);
-              return false;
             }}
             beforeUpload={() => {
               return false;
@@ -42,7 +41,6 @@ const InputFile = <T extends FieldValues>(props: InputTextI<T>) => {
             listType="picture"
             maxCount={1}
             ref={field.ref}
-            defaultFileList={field.value || []}
             multiple={false}
           >
             <div>

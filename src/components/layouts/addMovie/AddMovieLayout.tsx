@@ -7,10 +7,12 @@ import InputText from "@/components/elements/form/inputs/inputText/InputText";
 import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber";
 import InputFile from "@/components/elements/form/inputs/inputFile/InputFile";
 import { useEffect } from "react";
+import { MovieI } from "@/models/movie.model";
 
 type AddMovieLayoutP = {
   onAddMovie(data: any): void;
   loading: boolean;
+  movie?: MovieI;
 };
 
 const initialState = {
@@ -21,28 +23,23 @@ const initialState = {
   stock: 1,
   image: {},
   availability: false,
-}
+};
 const AddMovieLayout = ({ onAddMovie, loading }: AddMovieLayoutP) => {
   const {
     control,
-    getValues,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: initialState,
     resolver: yupResolver(addMovieSchema),
   });
-  const values = getValues();
+
   const onSubmit: SubmitHandler<yup.InferType<typeof addMovieSchema>> = (
     data
   ) =>
     onAddMovie({
       ...data,
     });
-
-    useEffect(() => {
-      console.log(values);
-    }, [values])
   return (
     <Flex vertical className="p-4 md:mx-auto items-center md:justify-center">
       <form
@@ -94,7 +91,6 @@ const AddMovieLayout = ({ onAddMovie, loading }: AddMovieLayoutP) => {
           name="image"
           errorMessage={errors.image?.message ?? ""}
           control={control}
-          disabled={loading}
         />
         <Button
           type="primary"

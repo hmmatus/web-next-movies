@@ -10,12 +10,4 @@ export const addMovieSchema = yup.object({
   stock: yup.number().required().min(1),
   image: yup.mixed()
   .required('File is required')
-  .test('fileType', 'Invalid file type', (value: any) => {
-    const fileValue = value as CustomFileObject | undefined;
-        return fileValue && ['image/jpeg', 'image/png', 'image/gif'].includes(fileValue.type);
-  })
-  .test('fileSize', 'File size is too large', (value: any) => {
-    const fileValue = value as CustomFileObject | undefined;
-    return fileValue && fileValue.size <= 2000 * 2000;
-  })
 })
