@@ -1,76 +1,81 @@
-"use client";
+"use client"
 
-import MovieCard from "@/components/elements/cards/Movie/MovieCard";
-import LoadingLayout from "@/components/layouts/loading/LoadingLayout";
-import { GetMovieResponseI, MovieI } from "@/models/movie.model";
-import { GetMovieFilters, UserRole } from "@/models/user.model";
-import { useAppSelector } from "@/redux/hooks";
-import { movieService } from "@/service/movies/movieService";
-import { useQuery } from "@tanstack/react-query";
-import { Input, Pagination, Select, Space } from "antd";
-import { SearchProps } from "antd/es/input";
-import { ChangeEvent, useEffect, useState } from "react";
+import MovieCard from "@/components/elements/cards/Movie/MovieCard"
+import LoadingLayout from "@/components/layouts/loading/LoadingLayout"
+import { type GetMovieResponseI, type MovieI } from "@/models/movie.model"
+import { type GetMovieFilters, UserRole } from "@/models/user.model"
+import { useAppSelector } from "@/redux/hooks"
+import { movieService } from "@/service/movies/movieService"
+import { useQuery } from "@tanstack/react-query"
+import { Input, Pagination, Select, Space } from "antd"
+import { type SearchProps } from "antd/es/input"
+import React, {
+  type ChangeEvent,
+  useEffect,
+  useState,
+  type ReactElement,
+} from "react"
 
-const { Search } = Input;
+const { Search } = Input
 
-type OptionT = {
-  label: string;
-  value: "default" | "likes";
-};
+interface OptionT {
+  label: string
+  value: "default" | "likes"
+}
 const options: OptionT[] = [
   { label: "Default", value: "default" },
   {
     label: "Likes",
     value: "likes",
   },
-];
+]
 async function getMoviesData(
-  data: Partial<GetMovieFilters>
+  data: Partial<GetMovieFilters>,
 ): Promise<GetMovieResponseI> {
-  const result = await movieService.getMovies(data);
-  return result;
+  const result = await movieService.getMovies(data)
+  return result
 }
 
-export default function Page() {
-  const [searchValue, setSearchValue] = useState("");
+export default function Page(): ReactElement {
+  const [searchValue, setSearchValue] = useState("")
   const [selectedValue, setSelectedValue] = useState<"default" | "likes">(
-    "default"
-  );
-  const [currentPage, setCurrentPage] = useState(1);
-  const { isLoggedIn } = useAppSelector((state) => state.auth);
-  const { data, isError, isLoading, refetch } = useQuery({
+    "default",
+  )
+  const [currentPage, setCurrentPage] = useState(1)
+  const { isLoggedIn } = useAppSelector((state) => state.auth)
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["moviesData"],
-    queryFn: () =>
-      getMoviesData({
+    queryFn: async () =>
+      await getMoviesData({
         onlyAvailable: true,
         orderBy: selectedValue,
         searchValue,
-        currentPage: currentPage,
+        currentPage,
         limit: 3,
       }),
     retry: 2,
     enabled: true,
-  });
-  const onSearch: SearchProps["onSearch"] = (value, _e, info) => {
-    setCurrentPage(1);
+  })
+  const onSearch: SearchProps["onSearch"] = () => {
+    setCurrentPage(1)
   }
 
-  const onChangeSearch = (event: ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
-  };
-  const onChangeSelect = (value: "default" | "likes") => {
-    setSelectedValue(value);
-  };
-  const onChangePage = (page: number) => {
-    setCurrentPage(page);
-  };
+  const onChangeSearch = (event: ChangeEvent<HTMLInputElement>): void => {
+    setSearchValue(event.target.value)
+  }
+  const onChangeSelect = (value: "default" | "likes"): void => {
+    setSelectedValue(value)
+  }
+  const onChangePage = (page: number): void => {
+    setCurrentPage(page)
+  }
 
   useEffect(() => {
-    refetch();
-  }, [selectedValue, currentPage, onSearch]);
+    void refetch()
+  }, [selectedValue, currentPage, onSearch])
 
   if (isLoading) {
-    return <LoadingLayout />;
+    return <LoadingLayout />
   }
 
   return (
@@ -108,5 +113,5 @@ export default function Page() {
         responsive
       />
     </Space>
-  );
+  )
 }

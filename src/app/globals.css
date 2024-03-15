@@ -25,11 +25,13 @@
   }
 }
 
-.ant-table td, th {
+.ant-table td,
+th {
   font-size: 1.5rem;
 }
 
-html, body {
+html,
+body {
   padding: 0;
   margin: 0;
   border: 0;

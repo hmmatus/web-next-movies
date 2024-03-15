@@ -1,19 +1,19 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Flex, Space } from "antd";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { addMovieSchema } from "./validation";
-import * as yup from "yup";
-import InputText from "@/components/elements/form/inputs/inputText/InputText";
-import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber";
-import InputFile from "@/components/elements/form/inputs/inputFile/InputFile";
-import { useEffect } from "react";
-import { MovieI } from "@/models/movie.model";
+import type React from "react"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { Button, Flex } from "antd"
+import { type SubmitHandler, useForm } from "react-hook-form"
+import { addMovieSchema } from "./validation"
+import type * as yup from "yup"
+import InputText from "@/components/elements/form/inputs/inputText/InputText"
+import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber"
+import InputFile from "@/components/elements/form/inputs/inputFile/InputFile"
+import { type MovieI } from "@/models/movie.model"
 
-type AddMovieLayoutP = {
-  onAddMovie(data: any): void;
-  loading: boolean;
-  movie?: MovieI;
-};
+interface AddMovieLayoutP {
+  onAddMovie: (data: any) => void
+  loading: boolean
+  movie?: MovieI
+}
 
 const initialState = {
   title: "",
@@ -23,8 +23,8 @@ const initialState = {
   stock: 1,
   image: {},
   availability: false,
-};
-const AddMovieLayout = ({ onAddMovie, loading }: AddMovieLayoutP) => {
+}
+const AddMovieLayout: React.FC<AddMovieLayoutP> = ({ onAddMovie, loading }) => {
   const {
     control,
     handleSubmit,
@@ -32,14 +32,15 @@ const AddMovieLayout = ({ onAddMovie, loading }: AddMovieLayoutP) => {
   } = useForm({
     defaultValues: initialState,
     resolver: yupResolver(addMovieSchema),
-  });
+  })
 
   const onSubmit: SubmitHandler<yup.InferType<typeof addMovieSchema>> = (
-    data
-  ) =>
+    data,
+  ) => {
     onAddMovie({
       ...data,
-    });
+    })
+  }
   return (
     <Flex vertical className="p-4 md:mx-auto items-center md:justify-center">
       <form
@@ -50,21 +51,21 @@ const AddMovieLayout = ({ onAddMovie, loading }: AddMovieLayoutP) => {
         <InputText
           label="Title"
           name="title"
-          errorMessage={errors.title?.message || ""}
+          errorMessage={errors.title?.message ?? ""}
           control={control}
           disabled={loading}
         />
         <InputText
           label="Description"
           name="description"
-          errorMessage={errors.description?.message || ""}
+          errorMessage={errors.description?.message ?? ""}
           control={control}
           disabled={loading}
         />
         <CustomInputNumber
           label="Sale amount"
           name="saleAmount"
-          errorMessage={errors.saleAmount?.message || ""}
+          errorMessage={errors.saleAmount?.message ?? ""}
           control={control}
           disabled={loading}
           min={1}
@@ -103,7 +104,7 @@ const AddMovieLayout = ({ onAddMovie, loading }: AddMovieLayoutP) => {
         </Button>
       </form>
     </Flex>
-  );
-};
+  )
+}
 
-export default AddMovieLayout;
+export default AddMovieLayout

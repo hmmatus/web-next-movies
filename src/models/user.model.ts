@@ -1,54 +1,53 @@
 export interface UserI {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
+  id: string
+  name: string
+  email: string
+  role: UserRole
 }
 
 export enum UserRole {
   admin = "admin",
-  user = "user"
+  user = "user",
 }
 
 export interface AdminUserI extends UserI {
-  idCinema: string;
+  idCinema: string
 }
 
 export interface SignUpAdminUserI {
-  email: string;
-  name: string;
-  password: string;
-  confirmPassword:string;
-  idCinema: string;
+  email: string
+  name: string
+  password: string
+  confirmPassword: string
+  idCinema: string
 }
 
 export interface SignUpUserI {
-  name: string;
-  email: string;
-  password: string;
-  role?: UserRole;
-}
-
-export interface GetUserResponseI {
-  id: string;
-  name: string;
-  email: string;
-  role: UserRole;
-}
-
-export interface RegisterUserI {
-  id?: string;
-  email: string;
-  name: string;
-  password: string;
+  name: string
+  email: string
+  password: string
   role?: UserRole
 }
 
+export interface GetUserResponseI {
+  id: string
+  name: string
+  email: string
+  role: UserRole
+}
+
+export interface RegisterUserI {
+  id?: string
+  email: string
+  name: string
+  password: string
+  role?: UserRole
+}
 
 export interface GetMovieFilters {
-  orderBy: "default" | "likes";
-  onlyAvailable: boolean;
-  searchValue: string;
-  limit: number;
-  currentPage: number;
+  orderBy: "default" | "likes"
+  onlyAvailable: boolean
+  searchValue: string
+  limit: number
+  currentPage: number
 }

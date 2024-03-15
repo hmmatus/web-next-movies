@@ -1,4 +1,4 @@
-import * as yup from "yup";
+import * as yup from "yup"
 export const movieSchema = yup.object({
   title: yup.string().required(),
   description: yup.string().required(),
@@ -6,40 +6,40 @@ export const movieSchema = yup.object({
     .number()
     .required()
     .test("greaterThanCero", "Value must be greater than 0", (value) => {
-      return value > 0;
+      return value > 0
     }),
   rentAmount: yup
     .number()
     .required()
     .test("greaterThanCero", "Value must be greater than 0", (value) => {
-      return value > 0;
+      return value > 0
     }),
   saleAmount: yup
     .number()
     .required()
     .test("greaterThanCero", "Value must be greater than 0", (value) => {
-      return value > 0;
+      return value > 0
     }),
   availability: yup.string().required(),
   image: yup.string().required(),
-});
+})
 
 interface LikeI {
-  idUser: string;
+  idUser: string
 }
 export interface MovieI extends yup.InferType<typeof movieSchema> {
-  id: string;
-  likes: LikeI[];
+  id: string
+  likes: LikeI[]
 }
 
 export interface GetMovieResponseI {
-  data:        MovieI[];
-  currentPage: number;
-  pages:       number;
+  data: MovieI[]
+  currentPage: number
+  pages: number
 }
 
 export interface CustomFileObject {
-  name: string;
-  type: string;
-  size: number;
+  name: string
+  type: string
+  size: number
 }

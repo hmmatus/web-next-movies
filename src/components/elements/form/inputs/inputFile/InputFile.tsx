@@ -1,41 +1,37 @@
-import InputWrapper from "@/components/wrappers/inputWrapper/InputWrapper";
-import { CustomFileObject } from "@/models/movie.model";
-import { InboxOutlined } from "@ant-design/icons";
-import Upload, {
-  DraggerProps,
-  UploadChangeParam,
-  UploadFile,
-  UploadProps,
-} from "antd/es/upload";
+import React, { type ReactElement } from "react"
+import InputWrapper from "@/components/wrappers/inputWrapper/InputWrapper"
+import { InboxOutlined } from "@ant-design/icons"
+import Upload, { type DraggerProps } from "antd/es/upload"
 import {
-  Control,
+  type Control,
   Controller,
-  ControllerRenderProps,
-  FieldValues,
-  Path,
-} from "react-hook-form";
+  type FieldValues,
+  type Path,
+} from "react-hook-form"
 interface InputTextI<T extends FieldValues> extends DraggerProps {
-  label: string;
-  errorMessage: string;
-  control: Control<T>;
-  name: Path<T>;
+  label: string
+  errorMessage: string
+  control: Control<T>
+  name: Path<T>
 }
 
-const { Dragger } = Upload;
-const InputFile = <T extends FieldValues>(props: InputTextI<T>) => {
+const { Dragger } = Upload
+const InputFile = <T extends FieldValues>(
+  props: InputTextI<T>,
+): ReactElement => {
   return (
     <InputWrapper label={props.label} error={props.errorMessage}>
       <Controller
         name={props.name}
         control={props.control}
-        render={({ field, fieldState }) => (
+        render={({ field }) => (
           <Dragger
             name={field.name}
             customRequest={(info) => {
-              field.onChange(info.file);
+              field.onChange(info.file)
             }}
             beforeUpload={() => {
-              return false;
+              return false
             }}
             disabled={field.disabled}
             listType="picture"
@@ -59,7 +55,7 @@ const InputFile = <T extends FieldValues>(props: InputTextI<T>) => {
         )}
       />
     </InputWrapper>
-  );
-};
+  )
+}
 
-export default InputFile;
+export default InputFile

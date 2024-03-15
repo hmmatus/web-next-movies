@@ -1,14 +1,23 @@
-import InputWrapper from "@/components/wrappers/inputWrapper/InputWrapper";
-import { Input, InputProps } from "antd";
-import { Control, Controller, FieldPath, FieldValues, Path } from "react-hook-form";
+import InputWrapper from "@/components/wrappers/inputWrapper/InputWrapper"
+import { Input, type InputProps } from "antd"
+import type React from "react"
+import { type ReactElement } from "react"
+import {
+  type Control,
+  Controller,
+  type FieldValues,
+  type Path,
+} from "react-hook-form"
 
 interface InputTextI<T extends FieldValues> extends InputProps {
-  label: string;
-  errorMessage: string;
-  control: Control<T>;
-  name: Path<T>;
+  label: string
+  errorMessage: string
+  control: Control<T>
+  name: Path<T>
 }
-const InputText =  <T extends FieldValues>(props: InputTextI<T>) => {
+const InputText = <T extends FieldValues>(
+  props: InputTextI<T>,
+): ReactElement => {
   return (
     <InputWrapper label={props.label} error={props.errorMessage}>
       <Controller
@@ -27,7 +36,7 @@ const InputText =  <T extends FieldValues>(props: InputTextI<T>) => {
         )}
       />
     </InputWrapper>
-  );
-};
+  )
+}
 
-export default InputText;
+export default InputText

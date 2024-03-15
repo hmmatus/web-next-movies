@@ -1,42 +1,51 @@
 "use client"
-import AddMovieLayout from "@/components/layouts/addMovie/AddMovieLayout";
-import { MovieI } from "@/models/movie.model";
-import { movieService } from "@/service/movies/movieService";
-import { useMutation } from "@tanstack/react-query";
-import { notification } from "antd";
-import { useRouter } from "next/navigation";
+import React from "react"
+import AddMovieLayout from "@/components/layouts/addMovie/AddMovieLayout"
+import { movieService } from "@/service/movies/movieService"
+import { useMutation } from "@tanstack/react-query"
+import { notification } from "antd"
+import { useRouter } from "next/navigation"
+import { type ReactElement } from "react"
+import { type AddMovieSchemaP } from "@/components/layouts/addMovie/validation"
+import { type RcFile } from "antd/es/upload"
 
-async function addMovieQuery(data: MovieI) {
-  const url = await movieService.saveMovieImage(data.image);
+async function addMovieQuery(data: AddMovieSchemaP): Promise<void> {
+  const url = await movieService.saveMovieImage(data.image as RcFile)
   await movieService.addMovie({
-    ...data,
-    image: url.url,
+    image: url,
+    title: data.title,
+    description: data.description,
+    availability: data.availability,
+    rentAmount: data.rentAmount,
+    saleAmount: data.saleAmount,
+    stock: data.stock,
   })
-  return;
 }
 
-export default function Page() {
-  const router = useRouter();
+export default function Page(): ReactElement {
+  const router = useRouter()
   const mutation = useMutation({
     mutationFn: addMovieQuery,
-    onSuccess: (result) => {
+    onSuccess: () => {
       notification.success({
         message: "Movie added successfully",
-      });
-      router.replace("/admin/dashboard/");
+      })
+      router.replace("/admin/dashboard/")
     },
     onError: (error) => {
       notification.error({
         message: "There was an error during register",
-        description: `${(error as Error).message}`,
-      });
+        description: `${error.message}`,
+      })
     },
-  });
+  })
 
   return (
     <AddMovieLayout
-      onAddMovie={(data) => mutation.mutate(data)}
+      onAddMovie={(data: AddMovieSchemaP) => {
+        mutation.mutate(data)
+      }}
       loading={mutation.isPending}
     />
-  );
+  )
 }
