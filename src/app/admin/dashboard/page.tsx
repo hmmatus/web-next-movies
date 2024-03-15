@@ -31,7 +31,7 @@ export default function Page(): ReactElement {
     queryFn: async () =>
       await getMoviesData({
         currentPage,
-        limit: 3,
+        limit: 10,
       }),
     retry: 2,
     enabled: true,
@@ -55,7 +55,7 @@ export default function Page(): ReactElement {
       dataIndex: "image",
       width: 200,
       render: (_, record: MovieI) => (
-        <div className="relative w-full h-80">
+        <div className="relative w-40 h-80">
           <Image src={record.image} fill alt={"Logo image"} />
         </div>
       ),

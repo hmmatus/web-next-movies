@@ -12,7 +12,7 @@ import { type RcFile } from "antd/es/upload"
 async function addMovieQuery(data: AddMovieSchemaP): Promise<void> {
   const url = await movieService.saveMovieImage(data.image as RcFile)
   await movieService.addMovie({
-    image: url,
+    image: url.url,
     title: data.title,
     description: data.description,
     availability: data.availability,

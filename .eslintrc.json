@@ -40,6 +40,13 @@
     "unused-imports/no-unused-imports": "error",
     "unused-imports/no-unused-vars": "error",
     "semi": "off",
-    "@typescript-eslint/semi": "error"
+    "@typescript-eslint/semi": "error",
+    "@typescript-eslint/strict-boolean-expressions": [
+      "error",
+      {
+        "allowString": true,
+        "allowNullableString": true
+      }
+    ]
   }
 }

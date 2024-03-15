@@ -8,6 +8,7 @@ import InputText from "@/components/elements/form/inputs/inputText/InputText"
 import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber"
 import InputFile from "@/components/elements/form/inputs/inputFile/InputFile"
 import { type MovieI } from "@/models/movie.model"
+import InputSwitch from "@/components/elements/form/inputs/inputSwitch/InputSwitch"
 
 interface AddMovieLayoutP {
   onAddMovie: (data: any) => void
@@ -86,6 +87,12 @@ const AddMovieLayout: React.FC<AddMovieLayoutP> = ({ onAddMovie, loading }) => {
           control={control}
           disabled={loading}
           min={1}
+        />
+        <InputSwitch
+          label="Available"
+          name="availability"
+          errorMessage={errors.availability?.message ?? ""}
+          control={control}
         />
         <InputFile
           label="Image"

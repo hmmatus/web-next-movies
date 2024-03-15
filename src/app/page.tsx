@@ -51,7 +51,7 @@ export default function Page(): ReactElement {
         orderBy: selectedValue,
         searchValue,
         currentPage,
-        limit: 3,
+        limit: 10,
       }),
     retry: 2,
     enabled: true,

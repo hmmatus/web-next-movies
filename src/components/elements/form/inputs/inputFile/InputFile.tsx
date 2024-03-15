@@ -27,7 +27,7 @@ const InputFile = <T extends FieldValues>(
         render={({ field }) => (
           <Dragger
             name={field.name}
-            customRequest={(info) => {
+            onChange={(info) => {
               field.onChange(info.file)
             }}
             beforeUpload={() => {

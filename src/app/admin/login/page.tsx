@@ -13,6 +13,7 @@ import { saveJwt } from "@/redux/slices/auth"
 import { saveUser } from "@/redux/slices/user"
 import { useRouter } from "next/navigation"
 import { type ReactElement } from "react"
+import { storeToken } from "@/utils/actions"
 
 interface LoginQueryResponse {
   jwt: string
@@ -30,6 +31,11 @@ async function loginQuery(data: {
   )
   const idToken = await userCredential.user.getIdToken()
   axiosInstance.defaults.headers.common.Authorization = `Bearer ${idToken}`
+  const expirationDate = new Date()
+  await storeToken({
+    jwt: idToken,
+    expiration: new Date(expirationDate.setDate(expirationDate.getDate() + 1)),
+  })
   const result = await adminService.getUser(userCredential.user.uid)
   if (result.user.role !== UserRole.admin) {
     axiosInstance.defaults.headers.common.Authorization = ""
