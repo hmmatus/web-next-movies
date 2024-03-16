@@ -4,8 +4,8 @@ import LoadingLayout from "@/components/layouts/loading/LoadingLayout"
 import { type GetMovieResponseI, type MovieI } from "@/models/movie.model"
 import { type GetMovieFilters } from "@/models/user.model"
 import { movieService } from "@/service/movies/movieService"
-import { useQuery } from "@tanstack/react-query"
-import { Button, Modal, Table, type TableColumnType } from "antd"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { Button, Modal, Table, notification, type TableColumnType } from "antd"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { type ReactElement, useEffect, useState } from "react"
@@ -18,8 +18,7 @@ async function getMoviesData(
 }
 
 async function deleteQuery(movie: MovieI): Promise<void> {
-  // const result = await movieService.deleteMovie(movie.id);
-  console.log(movie)
+  await movieService.deleteMovie(movie.id)
 }
 export default function Page(): ReactElement {
   const [currentPage, setCurrentPage] = useState(1)
@@ -36,6 +35,23 @@ export default function Page(): ReactElement {
     retry: 2,
     enabled: true,
   })
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteQuery,
+    onSuccess: () => {
+      notification.success({
+        message: "Movie Deleted Successfully",
+        placement: "topRight",
+      })
+      void refetch()
+    },
+    onError: (error) => {
+      notification.error({
+        message: error.message,
+        placement: "topRight",
+      })
+    },
+  })
   const handleNewMovie = (): void => {
     router.push("/admin/dashboard/addMovie")
   }
@@ -44,7 +60,8 @@ export default function Page(): ReactElement {
     setIsModalOpen(true)
   }
   const deleteMovie = (movie: MovieI): void => {
-    void deleteQuery(movie)
+    setIsModalOpen(false)
+    deleteMutation.mutate(movie)
   }
   useEffect(() => {
     void refetch()
@@ -90,7 +107,15 @@ export default function Page(): ReactElement {
 
       render: (_, record: MovieI) => (
         <div className="flex w-full gap-2">
-          <Button>Edit</Button>
+          <Button
+            onClick={() => {
+              const params = new URLSearchParams()
+              params.set("movie", JSON.stringify(record))
+              router.push(`/admin/dashboard/editMovie?${params.toString()}`)
+            }}
+          >
+            Edit
+          </Button>
           <Button
             onClick={() => {
               handleDelete(record)

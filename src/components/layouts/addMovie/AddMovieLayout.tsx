@@ -2,18 +2,17 @@ import type React from "react"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { Button, Flex } from "antd"
 import { type SubmitHandler, useForm } from "react-hook-form"
-import { addMovieSchema } from "./validation"
+import { type AddMovieSchemaP, addMovieSchema } from "./validation"
 import type * as yup from "yup"
 import InputText from "@/components/elements/form/inputs/inputText/InputText"
 import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber"
 import InputFile from "@/components/elements/form/inputs/inputFile/InputFile"
-import { type MovieI } from "@/models/movie.model"
 import InputSwitch from "@/components/elements/form/inputs/inputSwitch/InputSwitch"
 
 interface AddMovieLayoutP {
   onAddMovie: (data: any) => void
   loading: boolean
-  movie?: MovieI
+  movie?: AddMovieSchemaP
 }
 
 const initialState = {
@@ -25,13 +24,17 @@ const initialState = {
   image: {},
   availability: false,
 }
-const AddMovieLayout: React.FC<AddMovieLayoutP> = ({ onAddMovie, loading }) => {
+const MovieFormLayout: React.FC<AddMovieLayoutP> = ({
+  onAddMovie,
+  loading,
+  movie,
+}) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
-    defaultValues: initialState,
+    defaultValues: movie ?? initialState,
     resolver: yupResolver(addMovieSchema),
   })
 
@@ -114,4 +117,4 @@ const AddMovieLayout: React.FC<AddMovieLayoutP> = ({ onAddMovie, loading }) => {
   )
 }
 
-export default AddMovieLayout
+export default MovieFormLayout

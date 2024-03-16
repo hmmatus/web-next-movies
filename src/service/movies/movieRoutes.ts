@@ -7,8 +7,12 @@ const getMovies = (data: Partial<GetMovieFilters>): string =>
   }`
 const saveMovieImage = (): string => `${BASE_URL}/picture`
 const addMovie = (): string => `${BASE_URL}`
+const deleteMovie = (id: string): string => `${BASE_URL}/${id}`
+const updateMovie = (id: string): string => `${BASE_URL}/${id}`
 export const movieRoutes = {
   getMovies: (data: Partial<GetMovieFilters>) => getMovies(data),
   saveMovieImage: () => saveMovieImage(),
   addMovie: () => addMovie(),
+  deleteMovie: (id: string) => deleteMovie(id),
+  updateMovie: (id: string) => updateMovie(id),
 }

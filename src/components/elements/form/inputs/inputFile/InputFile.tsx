@@ -38,6 +38,7 @@ const InputFile = <T extends FieldValues>(
             maxCount={1}
             ref={field.ref}
             multiple={false}
+            defaultFileList={[field.value]}
           >
             <div>
               <p className="ant-upload-drag-icon">

@@ -20,7 +20,7 @@ export const movieSchema = yup.object({
     .test("greaterThanCero", "Value must be greater than 0", (value) => {
       return value > 0
     }),
-  availability: yup.string().required(),
+  availability: yup.boolean().required(),
   image: yup.string().required(),
 })
 

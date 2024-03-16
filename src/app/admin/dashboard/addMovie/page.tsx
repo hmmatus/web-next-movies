@@ -1,6 +1,6 @@
 "use client"
 import React from "react"
-import AddMovieLayout from "@/components/layouts/addMovie/AddMovieLayout"
+import MovieFormLayout from "@/components/layouts/addMovie/AddMovieLayout"
 import { movieService } from "@/service/movies/movieService"
 import { useMutation } from "@tanstack/react-query"
 import { notification } from "antd"
@@ -41,7 +41,7 @@ export default function Page(): ReactElement {
   })
 
   return (
-    <AddMovieLayout
+    <MovieFormLayout
       onAddMovie={(data: AddMovieSchemaP) => {
         mutation.mutate(data)
       }}

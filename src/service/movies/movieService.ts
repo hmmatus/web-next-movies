@@ -21,4 +21,10 @@ export const movieService = {
   addMovie: async (data: AddMovieSchemaP) => {
     return await service.post(movieRoutes.addMovie(), data)
   },
+  deleteMovie: async (id: string) => {
+    return await service.delete(movieRoutes.deleteMovie(id))
+  },
+  updateMovie: async (id: string, data: AddMovieSchemaP) => {
+    return await service.put(movieRoutes.updateMovie(id), data)
+  },
 }
