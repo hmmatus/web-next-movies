@@ -82,12 +82,14 @@ export default function Page(): ReactElement {
     <Space direction="vertical" className="p-4 w-full">
       <div className="flex flex-col md:flex-row gap-2 lg:max-w-screen-md">
         <Search
+          size="large"
           placeholder="Search text"
           onChange={onChangeSearch}
           onSearch={onSearch}
           value={searchValue}
         />
         <Select
+          size="large"
           defaultValue={options[0].value}
           style={{ width: 200 }}
           onChange={onChangeSelect}

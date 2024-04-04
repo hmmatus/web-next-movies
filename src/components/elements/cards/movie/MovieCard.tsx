@@ -59,6 +59,7 @@ const MovieCard = ({
         </div>
         <p>{movie.description}</p>
         <Link
+          className="max-w-max"
           href={{
             pathname: "details",
             query: {
