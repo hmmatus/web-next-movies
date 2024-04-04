@@ -1,18 +1,19 @@
 import React, { type ReactElement } from "react"
 import { type MovieI } from "@/models/movie.model"
-import { UserRole } from "@/models/user.model"
+import { type UserRole } from "@/models/user.model"
 import { Colors } from "@/styles/colors"
 import { HeartFilled, HeartOutlined } from "@ant-design/icons"
-import { Flex, Skeleton, Space } from "antd"
+import { Skeleton, Space } from "antd"
 import Image from "next/image"
-
+import styles from "./style.module.css"
+import Link from "next/link"
 const HeartIcon = ({ isLiked }: { isLiked: boolean }): ReactElement => {
   const commonStyle = {
     color: Colors.like,
     fontSize: "32px",
   }
   return (
-    <div>
+    <div className="cursor-pointer">
       {isLiked ? (
         <HeartFilled style={commonStyle} />
       ) : (
@@ -34,37 +35,41 @@ const MovieSkeleton = (): ReactElement => {
 const MovieCard = ({
   movie,
   loading,
-  isLoggedIn,
-  userRole,
 }: {
   movie: MovieI
   loading: boolean
   isLoggedIn: boolean
   userRole: UserRole
 }): ReactElement => {
-  const isUser = isLoggedIn && userRole === UserRole.user
   if (loading) {
     return <MovieSkeleton />
   }
   return (
-    <Flex vertical className="border w-full h-full">
-      <div
-        className="relative flex flex-3"
-        style={{ width: "100%", minHeight: "500px" }}
-      >
-        <Image alt={`${movie.title}`} src={movie.image} fill loading="lazy" />
-        <div className={`${!isUser ? "hidden" : "absolute"} top-2 left-2`}>
-          <HeartIcon isLiked={true} />
+    <div className={`${styles.container}`}>
+      <Image
+        className={`${styles.image}`}
+        alt={movie.title}
+        src={movie.image}
+        fill
+      />
+      <div className={`${styles.preview}`}>
+        <div className="flex justify-between mr-2">
+          <h3>{movie.title}</h3>
+          <HeartIcon isLiked />
         </div>
-      </div>
-      <div className="flex flex-1 flex-col gap-2 p-4 justify-between">
-        <h2>{movie.title}</h2>
         <p>{movie.description}</p>
-        <p className="self-end underline text-primary cursor-pointer">
+        <Link
+          href={{
+            pathname: "details",
+            query: {
+              movie: JSON.stringify(movie),
+            },
+          }}
+        >
           Read More
-        </p>
+        </Link>
       </div>
-    </Flex>
+    </div>
   )
 }
 
