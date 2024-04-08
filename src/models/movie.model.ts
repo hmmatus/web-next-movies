@@ -43,3 +43,8 @@ export interface CustomFileObject {
   type: string
   size: number
 }
+
+export enum CheckoutMovieEnum {
+  SALE = "sale",
+  RENT = "rent",
+}
