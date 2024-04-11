@@ -3,12 +3,7 @@ import { CheckoutMovieEnum, type MovieI } from "@/models/movie.model"
 import { nextweek } from "@/utils/dateHandlers"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useMutation } from "@tanstack/react-query"
-import {
-  Button,
-  Divider,
-  Flex,
-  notification,
-} from "antd"
+import { Button, Divider, Flex, notification } from "antd"
 import type * as yup from "yup"
 import { useSearchParams } from "next/navigation"
 import { type ReactElement } from "react"
