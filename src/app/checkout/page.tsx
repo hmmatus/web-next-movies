@@ -1,20 +1,32 @@
 "use client"
 import { CheckoutMovieEnum, type MovieI } from "@/models/movie.model"
 import { nextweek } from "@/utils/dateHandlers"
+import { yupResolver } from "@hookform/resolvers/yup"
 import { useMutation } from "@tanstack/react-query"
 import {
   Button,
-  DatePicker,
   Divider,
   Flex,
-  Input,
-  InputNumber,
   notification,
 } from "antd"
+import type * as yup from "yup"
 import { useSearchParams } from "next/navigation"
-import { useState, type ReactElement } from "react"
-async function handlePurchase(): Promise<void> {
-  console.log("The api call")
+import { type ReactElement } from "react"
+import { type SubmitHandler, useForm } from "react-hook-form"
+import checkoutSchema from "./validation"
+import InputText from "@/components/elements/form/inputs/inputText/InputText"
+import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber"
+import InputDatePicker from "@/components/elements/form/inputs/inputDatePicker/InputDatePicker"
+async function handlePurchase(data: any): Promise<void> {
+  console.log(data)
+}
+
+const initialState = {
+  card: "",
+  name: "",
+  expiration: "",
+  cvv: "",
+  qty: 1,
 }
 export default function Page(): ReactElement {
   const expirationDateFormat = "MM/YYYY"
@@ -22,13 +34,15 @@ export default function Page(): ReactElement {
   const movie: MovieI = JSON.parse(params.get("movie") ?? "")
   const checkoutType: CheckoutMovieEnum =
     (params.get("type") as CheckoutMovieEnum) ?? CheckoutMovieEnum.SALE
-  const [qty, setQty] = useState(1)
-  const [paymentCardInfo, setPaymentCardInfo] = useState({
-    card: "",
-    name: "",
-    expiration: null,
-    cvv: "",
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: initialState,
+    resolver: yupResolver(checkoutSchema),
   })
+
   const nextWeekDate = nextweek()
   const paymentMutation = useMutation({
     mutationFn: handlePurchase,
@@ -45,10 +59,15 @@ export default function Page(): ReactElement {
       })
     },
   })
-  const onChangeQty = (value: number | null): void => {
-    if (value != null) {
-      setQty(value)
-    }
+
+  const onSubmit: SubmitHandler<yup.InferType<typeof checkoutSchema>> = (
+    data,
+  ) => {
+    paymentMutation.mutate({
+      ...data,
+      movieId: movie.id,
+      type: checkoutType,
+    })
   }
   const InfoCard = ({
     label,
@@ -72,78 +91,70 @@ export default function Page(): ReactElement {
         <InfoCard label="Title" value={movie.title} />
         <InfoCard label="Amount" value={`${movie[`${checkoutType}Amount`]}$`} />
         <Divider />
-        <div className="flex gap-2">
-          <label>Quantity</label>
-          <InputNumber
-            min={1}
-            max={movie.stock}
-            defaultValue={1}
-            value={qty}
-            onChange={onChangeQty}
-          />
-        </div>
-        <Divider />
-        <div className="flex flex-col gap-2">
-          <h2>Payment information</h2>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="flex gap-2">
+            <CustomInputNumber
+              label="Quantity"
+              min={1}
+              max={movie.stock}
+              defaultValue={1}
+              name="qty"
+              control={control}
+              errorMessage={errors.qty?.message ?? ""}
+            />
+          </div>
+          <Divider />
           <div className="flex flex-col gap-2">
-            <Input
-              placeholder="Credit Card"
-              value={paymentCardInfo.card}
-              onChange={(e) => {
-                setPaymentCardInfo({ ...paymentCardInfo, card: e.target.value })
-              }}
-            />
-            <Input
-              placeholder="Owner name"
-              value={paymentCardInfo.name}
-              onChange={(e) => {
-                setPaymentCardInfo({ ...paymentCardInfo, name: e.target.value })
-              }}
-            />
-            <div className="flex items-center justify-center gap-2">
-              <DatePicker
-                className="flex flex-1"
-                format={expirationDateFormat}
-                value={paymentCardInfo.expiration}
-                picker="month"
-                onChange={(date) => {
-                  setPaymentCardInfo({
-                    ...paymentCardInfo,
-                    expiration: date,
-                  })
-                }}
+            <h2>Payment information</h2>
+            <div className="flex flex-col gap-2">
+              <InputText
+                placeholder="Credit Card"
+                name="card"
+                control={control}
+                label="Credit Card"
+                errorMessage={errors.card?.message ?? ""}
               />
-              <Input
-                className="flex flex-1"
-                placeholder="Cvv"
-                value={paymentCardInfo.cvv}
-                onChange={(e) => {
-                  setPaymentCardInfo({
-                    ...paymentCardInfo,
-                    cvv: e.target.value,
-                  })
-                }}
-                max={3}
+              <InputText
+                placeholder="Owner name"
+                name="name"
+                control={control}
+                label="Owner name"
+                errorMessage={errors.name?.message ?? ""}
               />
+              <div className="flex gap-2">
+                <InputDatePicker
+                  placeholder="Expiration"
+                  name="expiration"
+                  control={control}
+                  label="Expiration"
+                  errorMessage={errors.expiration?.message ?? ""}
+                  format={expirationDateFormat}
+                  style={{ width: "100%" }}
+                  picker="month"
+                />
+                <InputText
+                  placeholder="Cvv"
+                  max={3}
+                  name="cvv"
+                  control={control}
+                  label="CVV"
+                  errorMessage={errors.cvv?.message ?? ""}
+                />
+              </div>
             </div>
           </div>
-        </div>
-        <Divider />
-        <div
-          className={`${checkoutType === CheckoutMovieEnum.RENT ? "flex" : "hidden"} flex-col`}
-        >
-          <h3>Information about rent</h3>
-          <p>{`Deliver before ${`${nextWeekDate.getDay()}/${nextWeekDate.getMonth()}/${nextWeekDate.getFullYear()}`}, You will receive a punishment otherwise`}</p>
-        </div>
-        <Divider />
-        <Button
-          type="primary"
-          onClick={() => {
-            paymentMutation.mutate()
-          }}
-        >
-          Complete Purchase
-        </Button>
+          <Divider />
+          <div
+            className={`${checkoutType === CheckoutMovieEnum.RENT ? "flex" : "hidden"} flex-col`}
+          >
+            <h3>Information about rent</h3>
+            <p>{`Deliver before ${`${nextWeekDate.getDay()}/${nextWeekDate.getMonth()}/${nextWeekDate.getFullYear()}`}, You will receive a punishment otherwise`}</p>
+          </div>
+          <Divider />
+          <Button htmlType="submit" type="primary">
+            Complete Purchase
+          </Button>
+        </form>
       </section>
     </main>
   )

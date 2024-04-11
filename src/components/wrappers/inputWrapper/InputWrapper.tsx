@@ -8,7 +8,7 @@ interface InputWrapperP {
 }
 const InputWrapper = ({ children, label, error }: InputWrapperP): ReactNode => {
   return (
-    <div>
+    <div className="w-full">
       <h4 className="my-2">{label}</h4>
       {children}
       {error != null && <p className="text-error my-2">{error}</p>}
