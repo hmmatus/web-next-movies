@@ -12,8 +12,12 @@ import checkoutSchema from "./validation"
 import InputText from "@/components/elements/form/inputs/inputText/InputText"
 import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber"
 import InputDatePicker from "@/components/elements/form/inputs/inputDatePicker/InputDatePicker"
-async function handlePurchase(data: any): Promise<void> {
-  console.log(data)
+import transactionService from "@/service/transaction/transactionService"
+import { type SaveTransactionI, type TransactionI } from "@/models/transaction.model"
+import { useAppSelector } from "@/redux/hooks"
+async function handlePurchase(data: SaveTransactionI): Promise<TransactionI> {
+  const result = await transactionService.addTransaction(data)
+  return result
 }
 
 const initialState = {
@@ -27,6 +31,7 @@ export default function Page(): ReactElement {
   const expirationDateFormat = "MM/YYYY"
   const params = useSearchParams()
   const movie: MovieI = JSON.parse(params.get("movie") ?? "")
+  const { id: idUser } = useAppSelector((state) => state.user)
   const checkoutType: CheckoutMovieEnum =
     (params.get("type") as CheckoutMovieEnum) ?? CheckoutMovieEnum.SALE
   const {
@@ -59,9 +64,11 @@ export default function Page(): ReactElement {
     data,
   ) => {
     paymentMutation.mutate({
-      ...data,
-      movieId: movie.id,
       type: checkoutType,
+      idMovie: movie.id,
+      idUser,
+      qty: data.qty,
+      expirationDate: nextWeekDate.toISOString(),
     })
   }
   const InfoCard = ({
