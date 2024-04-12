@@ -27,4 +27,7 @@ export const movieService = {
   updateMovie: async (id: string, data: AddMovieSchemaP) => {
     return await service.put(movieRoutes.updateMovie(id), data)
   },
+  likeMovie: async (data: {movieId: string, userId: string}) => {
+    return await service.post(movieRoutes.likeMovie(), data)
+  }
 }

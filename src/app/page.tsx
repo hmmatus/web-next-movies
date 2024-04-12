@@ -2,12 +2,12 @@
 
 import MovieCard from "@/components/elements/cards/Movie/MovieCard"
 import LoadingLayout from "@/components/layouts/loading/LoadingLayout"
-import { type GetMovieResponseI, type MovieI } from "@/models/movie.model"
-import { type GetMovieFilters, UserRole } from "@/models/user.model"
+import { type LikeMovieParamsI, type GetMovieResponseI, type MovieI } from "@/models/movie.model"
+import { type GetMovieFilters } from "@/models/user.model"
 import { useAppSelector } from "@/redux/hooks"
 import { movieService } from "@/service/movies/movieService"
-import { useQuery } from "@tanstack/react-query"
-import { Input, Pagination, Select, Space } from "antd"
+import { useMutation, useQuery } from "@tanstack/react-query"
+import { Input, Pagination, Select, Space, notification } from "antd"
 import { type SearchProps } from "antd/es/input"
 import React, {
   type ChangeEvent,
@@ -36,6 +36,10 @@ async function getMoviesData(
   return result
 }
 
+async function addLikeMovie(data: LikeMovieParamsI): Promise<void> {
+  await movieService.likeMovie(data)
+}
+
 export default function Page(): ReactElement {
   const [searchValue, setSearchValue] = useState("")
   const [selectedValue, setSelectedValue] = useState<"default" | "likes">(
@@ -43,6 +47,7 @@ export default function Page(): ReactElement {
   )
   const [currentPage, setCurrentPage] = useState(1)
   const { isLoggedIn } = useAppSelector((state) => state.auth)
+  const { id: userId } = useAppSelector((state) => state.user)
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["moviesData"],
     queryFn: async () =>
@@ -55,6 +60,22 @@ export default function Page(): ReactElement {
       }),
     retry: 2,
     enabled: true,
+  })
+  const movieMutation = useMutation({
+    mutationFn: addLikeMovie,
+    onSuccess: () => {
+      notification.success({
+        message: "Movie Liked!",
+        placement: "topRight",
+      })
+      void refetch()
+    },
+    onError: (error) => {
+      notification.error({
+        message: error.message,
+        placement: "topRight",
+      })
+    },
   })
   const onSearch: SearchProps["onSearch"] = () => {
     setCurrentPage(1)
@@ -102,8 +123,8 @@ export default function Page(): ReactElement {
             key={movie.id}
             movie={movie}
             loading={isLoading}
-            userRole={UserRole.user}
             isLoggedIn={isLoggedIn}
+            onPressLike={() => {movieMutation.mutate({movieId: movie.id, userId})}}
           />
         ))}
       </div>

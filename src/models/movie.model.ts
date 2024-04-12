@@ -30,6 +30,7 @@ interface LikeI {
 export interface MovieI extends yup.InferType<typeof movieSchema> {
   id: string
   likes: LikeI[]
+  isMovieLiked?: boolean;
 }
 
 export interface GetMovieResponseI {
@@ -47,4 +48,9 @@ export interface CustomFileObject {
 export enum CheckoutMovieEnum {
   SALE = "sale",
   RENT = "rent",
+}
+
+export interface LikeMovieParamsI {
+  movieId: string
+  userId: string
 }
