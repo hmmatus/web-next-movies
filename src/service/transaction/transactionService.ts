@@ -1,4 +1,7 @@
-import { type SaveTransactionI, type TransactionI } from "@/models/transaction.model"
+import {
+  type SaveTransactionI,
+  type TransactionI,
+} from "@/models/transaction.model"
 import { service } from "../config"
 import { transactionRoutes } from "./transactionRoutes"
 

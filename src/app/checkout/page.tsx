@@ -13,7 +13,10 @@ import InputText from "@/components/elements/form/inputs/inputText/InputText"
 import CustomInputNumber from "@/components/elements/form/inputs/inputNumber/InputNumber"
 import InputDatePicker from "@/components/elements/form/inputs/inputDatePicker/InputDatePicker"
 import transactionService from "@/service/transaction/transactionService"
-import { type SaveTransactionI, type TransactionI } from "@/models/transaction.model"
+import {
+  type SaveTransactionI,
+  type TransactionI,
+} from "@/models/transaction.model"
 import { useAppSelector } from "@/redux/hooks"
 async function handlePurchase(data: SaveTransactionI): Promise<TransactionI> {
   const result = await transactionService.addTransaction(data)
