@@ -6,7 +6,13 @@ import { Skeleton, Space } from "antd"
 import Image from "next/image"
 import styles from "./style.module.css"
 import Link from "next/link"
-const HeartIcon = ({ isLiked, onClick }: { isLiked: boolean, onClick: () => void }): ReactElement => {
+const HeartIcon = ({
+  isLiked,
+  onClick,
+}: {
+  isLiked: boolean
+  onClick: () => void
+}): ReactElement => {
   const commonStyle = {
     color: Colors.like,
     fontSize: "32px",
@@ -35,7 +41,7 @@ const MovieCard = ({
   movie,
   loading,
   isLoggedIn,
-  onPressLike
+  onPressLike,
 }: {
   movie: MovieI
   loading: boolean
@@ -54,9 +60,14 @@ const MovieCard = ({
         fill
       />
       <div className={`${styles.preview}`}>
-        <div className={`${isLoggedIn ? "flex" : "hidden"} justify-between mr-2`}>
+        <div
+          className={`${isLoggedIn ? "flex" : "hidden"} justify-between mr-2`}
+        >
           <h3>{movie.title}</h3>
-          <HeartIcon isLiked={movie.isMovieLiked ?? false} onClick={onPressLike} />
+          <HeartIcon
+            isLiked={movie.isMovieLiked ?? false}
+            onClick={onPressLike}
+          />
         </div>
         <p>{movie.description}</p>
         <Link

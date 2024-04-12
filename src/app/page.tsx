@@ -2,7 +2,11 @@
 
 import MovieCard from "@/components/elements/cards/Movie/MovieCard"
 import LoadingLayout from "@/components/layouts/loading/LoadingLayout"
-import { type LikeMovieParamsI, type GetMovieResponseI, type MovieI } from "@/models/movie.model"
+import {
+  type LikeMovieParamsI,
+  type GetMovieResponseI,
+  type MovieI,
+} from "@/models/movie.model"
 import { type GetMovieFilters } from "@/models/user.model"
 import { useAppSelector } from "@/redux/hooks"
 import { movieService } from "@/service/movies/movieService"
@@ -124,7 +128,9 @@ export default function Page(): ReactElement {
             movie={movie}
             loading={isLoading}
             isLoggedIn={isLoggedIn}
-            onPressLike={() => {movieMutation.mutate({movieId: movie.id, userId})}}
+            onPressLike={() => {
+              movieMutation.mutate({ movieId: movie.id, userId })
+            }}
           />
         ))}
       </div>

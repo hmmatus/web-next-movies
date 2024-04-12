@@ -30,7 +30,7 @@ interface LikeI {
 export interface MovieI extends yup.InferType<typeof movieSchema> {
   id: string
   likes: LikeI[]
-  isMovieLiked?: boolean;
+  isMovieLiked?: boolean
 }
 
 export interface GetMovieResponseI {
