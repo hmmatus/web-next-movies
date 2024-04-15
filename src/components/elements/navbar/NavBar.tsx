@@ -29,7 +29,6 @@ const NavBar: React.FC = () => {
             {element.title}
           </Link>
         ))}
-        {isLoggedIn}
       </Space>
     )
   }

@@ -30,4 +30,7 @@ export const movieService = {
   likeMovie: async (data: { movieId: string; userId: string }) => {
     return await service.post(movieRoutes.likeMovie(), data)
   },
+  dislikeMovie: async (data: { movieId: string; userId: string }) => {
+    return await service.post(movieRoutes.dislikeMovie(), data)
+  },
 }

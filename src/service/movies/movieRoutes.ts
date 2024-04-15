@@ -10,6 +10,7 @@ const addMovie = (): string => `${BASE_URL}`
 const deleteMovie = (id: string): string => `${BASE_URL}/${id}`
 const updateMovie = (id: string): string => `${BASE_URL}/${id}`
 const likeMovie = (): string => `${BASE_URL}/like`
+const dislikeMovie = (): string => `${BASE_URL}/dislike`
 export const movieRoutes = {
   getMovies: (data: Partial<GetMovieFilters>) => getMovies(data),
   saveMovieImage: () => saveMovieImage(),
@@ -17,4 +18,5 @@ export const movieRoutes = {
   deleteMovie: (id: string) => deleteMovie(id),
   updateMovie: (id: string) => updateMovie(id),
   likeMovie: () => likeMovie(),
+  dislikeMovie: () => dislikeMovie(),
 }
