@@ -18,15 +18,9 @@ const { Search } = Input
 
 interface OptionT {
   label: string
-  value: "default" | "likes"
+  value: "default" | "likes",
+  disabled?: boolean
 }
-const options: OptionT[] = [
-  { label: "Default", value: "default" },
-  {
-    label: "Likes",
-    value: "likes",
-  },
-]
 
 export default function Page(): ReactElement {
   const [searchValue, setSearchValue] = useState("")
@@ -45,6 +39,14 @@ export default function Page(): ReactElement {
   })
   const movieLike = useMovieLike(refetch)
   const movieDislike = useMovieDislike(refetch)
+  const options: OptionT[] = [
+    { label: "Default", value: "default" },
+    {
+      label: "Likes",
+      value: "likes",
+      disabled: !userId,
+    },
+  ]
   const onSearch: SearchProps["onSearch"] = () => {
     setCurrentPage(1)
   }

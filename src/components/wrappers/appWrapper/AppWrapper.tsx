@@ -5,6 +5,7 @@ import { Provider } from "react-redux"
 import store from "@/redux/store"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import NavBar from "@/components/elements/navbar/NavBar"
+import { UserProvider } from "@/contexts/UserProvider"
 
 interface Props {
   children: ReactNode
@@ -14,8 +15,12 @@ const AppWrapper = ({ children }: Props): ReactNode => {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <NavBar />
-        {children}
+        <UserProvider>
+          <>
+            <NavBar />
+            {children}
+          </>
+        </UserProvider>
       </QueryClientProvider>
     </Provider>
   )
