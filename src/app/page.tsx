@@ -18,7 +18,7 @@ const { Search } = Input
 
 interface OptionT {
   label: string
-  value: "default" | "likes",
+  value: "default" | "likes"
   disabled?: boolean
 }
 
