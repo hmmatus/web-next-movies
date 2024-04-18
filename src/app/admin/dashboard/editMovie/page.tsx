@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query"
 import { notification } from "antd"
 import { type RcFile } from "antd/es/upload"
 import { useRouter, useSearchParams } from "next/navigation"
-import React, { type ReactElement } from "react"
+import React, { Suspense, type ReactElement } from "react"
 
 async function editQuery({
   id,
@@ -29,7 +29,7 @@ async function editQuery({
   await movieService.updateMovie(id, formData)
 }
 
-export default function Page(): ReactElement {
+function PageContent(): ReactElement {
   const params = useSearchParams()
   const movie: MovieI = JSON.parse(params.get("movie") ?? "")
   const router = useRouter()
@@ -65,5 +65,13 @@ export default function Page(): ReactElement {
         mutation.mutate({ id: movie.id, data })
       }}
     />
+  )
+}
+
+export default function Page(): JSX.Element {
+  return (
+    <Suspense>
+      <PageContent />
+    </Suspense>
   )
 }

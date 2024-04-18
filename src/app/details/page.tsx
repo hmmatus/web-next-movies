@@ -6,9 +6,9 @@ import { Breadcrumb, Button, Divider } from "antd"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import { type ReactElement } from "react"
+import { Suspense, type ReactElement } from "react"
 
-export default function Page(): ReactElement {
+function PageContent(): ReactElement {
   const params = useSearchParams()
   const movie: MovieI = JSON.parse(params.get("movie") ?? "")
   const router = useRouter()
@@ -84,5 +84,13 @@ export default function Page(): ReactElement {
         </section>
       </div>
     </main>
+  )
+}
+
+export default function Page(): ReactElement {
+  return (
+    <Suspense>
+      <PageContent />
+    </Suspense>
   )
 }

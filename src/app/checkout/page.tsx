@@ -6,7 +6,7 @@ import { useMutation } from "@tanstack/react-query"
 import { Button, Divider, Flex, notification } from "antd"
 import type * as yup from "yup"
 import { useSearchParams } from "next/navigation"
-import { type ReactElement } from "react"
+import { Suspense, type ReactElement } from "react"
 import { type SubmitHandler, useForm } from "react-hook-form"
 import checkoutSchema from "./validation"
 import InputText from "@/components/elements/form/inputs/inputText/InputText"
@@ -30,7 +30,7 @@ const initialState = {
   cvv: "",
   qty: 1,
 }
-export default function Page(): ReactElement {
+function PageContent(): ReactElement {
   const expirationDateFormat = "MM/YYYY"
   const params = useSearchParams()
   const movie: MovieI = JSON.parse(params.get("movie") ?? "")
@@ -162,5 +162,13 @@ export default function Page(): ReactElement {
         </form>
       </section>
     </main>
+  )
+}
+
+export default function Page(): JSX.Element {
+  return (
+    <Suspense>
+      <PageContent />
+    </Suspense>
   )
 }
