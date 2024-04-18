@@ -17,3 +17,14 @@ export interface SaveTransactionI {
   type: CheckoutMovieEnum
   expirationDate?: string
 }
+
+export interface GetTransactionParams {
+  currentPage: number
+  limit: number
+}
+
+export interface GetTransactionResponse {
+  data: TransactionI[]
+  currentPage: number
+  pages: number
+}
