@@ -1,6 +1,6 @@
 "use client"
 
-import MovieCard from "@/components/elements/cards/Movie/MovieCard"
+import MovieCard from "@/components/elements/cards/movie/MovieCard"
 import LoadingLayout from "@/components/layouts/loading/LoadingLayout"
 import { useMovieDislike, useMovieLike, useMoviesData } from "@/hooks/movies"
 import { type MovieI } from "@/models/movie.model"
