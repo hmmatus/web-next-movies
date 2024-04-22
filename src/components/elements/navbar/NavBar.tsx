@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/redux/hooks"
-import { loggedInElements, loggedOutElements } from "@/utils/navBarElements"
+import { loggedInElements, loggedOutElements } from "@/utils/navbarelements"
 import { MenuOutlined } from "@ant-design/icons"
 import { Space } from "antd"
 import Link from "next/link"
