@@ -1,102 +1,78 @@
-"use client";
-import MainButton from "@/components/elements/buttons/MainButton/MainButton";
-import InputText from "@/components/elements/form/inputs/InputText/InputText";
-import { app } from "@/firebase/config";
-import { useAppDispatch } from "@/redux/hooks";
-import { saveJwt } from "@/redux/slices/auth";
-import { saveUser } from "@/redux/slices/user";
-import { userService } from "@/service/user/userService";
-import {axiosInstance} from "@/service/config";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { UserRole } from "@/models/user";
-type loginDataP = {
-  email: string;
-  password: string;
-};
-
-const LoginLayout = () => {
-  const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<loginDataP>({
+"use client"
+import type React from "react"
+import { useState } from "react"
+import { Button, Input } from "antd"
+interface LoginLayoutP {
+  handleLogin: (data: { email: string; password: string }) => void
+  handleSignUp: () => void
+  handleForgotPassword: () => void
+  loading?: boolean
+}
+const LoginLayout: React.FC<LoginLayoutP> = ({
+  handleLogin,
+  handleSignUp,
+  handleForgotPassword,
+  loading = false,
+}) => {
+  const [loginData, setLoginData] = useState({
     email: "",
     password: "",
-  });
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-  const handleLogin = async () => {
-    setLoading(true);
-    try {
-      const auth = getAuth(app);
-      const result = await signInWithEmailAndPassword(
-        auth,
-        data.email,
-        data.password
-      );
-      const token = await result.user.getIdToken();
-      axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      const userData = await userService.getUserData(result.user.uid);
-      dispatch(saveJwt({jwt: token}));
-      dispatch(saveUser({
-        user: {
-          id: result.user.uid,
-          name: userData.user.name,
-          email: userData.user.email,
-          role: UserRole.customer
-        }
-      }));
-      router.replace("/");
-    } catch (error) {
-      console.log("🚀 ~ handleLogin ~ error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  function onChangeValue(index: string, value: string) {
-    setData({ ...data, [index]: value });
+  })
+  const handleOnChange = (key: string, value: string): void => {
+    setLoginData({
+      ...loginData,
+      [key]: value,
+    })
   }
   return (
-    <main>
-      <div className={`w-full flex items-center justify-center`}>
-        <div className="w-80 flex flex-col items-center justify-center">
-          <h1 className="text-2xl text-bold my-2">Login</h1>
-          <InputText
-            title="Email"
-            name="email"
-            value={data?.email}
-            inputProps={{
-              className: "w-full",
-              disabled: loading
+    <main className="p-4 md:mx-auto flex flex-col items-center md:justify-center">
+      <div className="p-4 md:bg-table-background-primary md:shadow-md md:max-w-screen-md md:rounded-md">
+        <h1 className="mb-2">Login</h1>
+        <Input
+          size="large"
+          placeholder="Email"
+          value={loginData.email}
+          onChange={(value) => {
+            handleOnChange("email", value.target.value)
+          }}
+          disabled={loading}
+        />
+        <Input.Password
+          size="large"
+          className="my-4"
+          placeholder="Password"
+          value={loginData.password}
+          onChange={(value) => {
+            handleOnChange("password", value.target.value)
+          }}
+          disabled={loading}
+        />
+        <Button
+          className="justify-self-end"
+          type="link"
+          onClick={handleForgotPassword}
+          disabled={loading}
+        >
+          Forgot your password?
+        </Button>
+        <div className="flex items-center justify-center gap-2 mt-2">
+          <Button
+            type="primary"
+            onClick={() => {
+              handleLogin(loginData)
             }}
-            onChange={(value) => onChangeValue("email", value)}
-          />
-          <InputText
-            title="Password"
-            name="password"
-            type="password"
-            value={data?.password}
-            onChange={(value) => onChangeValue("password", value)}
-            inputProps={{
-              className: "w-full",
-              disabled: loading
-            }}
-          />
-          <Link className="text-primary mb-4" href="/signup">
-            Dont you have an account? Sign Up
-          </Link>
-          <MainButton
-            type="button"
-            title="Login"
-            className="w-full mx-2"
-            onClick={handleLogin}
-          />
+            loading={loading}
+            disabled={loading}
+          >
+            Login
+          </Button>
+          <Button onClick={handleSignUp} disabled={loading}>
+            Sign in
+          </Button>
         </div>
       </div>
     </main>
-  );
-};
+  )
+}
 
-export default LoginLayout;
+export default LoginLayout

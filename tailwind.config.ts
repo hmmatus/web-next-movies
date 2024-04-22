@@ -1,4 +1,4 @@
-import {Colors} from "./src/styles/colors";
+import { Colors } from "./src/styles/colors"
 module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
@@ -9,11 +9,10 @@ module.exports = {
       "text-primary": Colors["text-primary"],
       "table-background-primary": Colors["table-background-primary"],
       error: Colors.error,
-      focus: Colors.focus
+      focus: Colors.focus,
+      like: Colors.like,
     },
-    extend: {
-
-    },
+    extend: {},
   },
   plugins: [],
-};
+}

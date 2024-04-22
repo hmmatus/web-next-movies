@@ -1,43 +1,39 @@
-import { AdminUserI, UserI, UserRole } from "@/models/user";
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { type UserI, type UserRole } from "@/models/user.model"
+import { type PayloadAction, createSlice } from "@reduxjs/toolkit"
 
-interface UserSliceI  {
-  email: string;
-  id: string;
-  name: string;
-  idCinema: string;
-  role: UserRole;
+interface UserSliceI {
+  email: string
+  id: string
+  name: string
+  role: UserRole | null
 }
 const initialState: UserSliceI = {
   email: "",
   name: "",
   id: "",
-  idCinema: "",
-  role: UserRole.customer
-};
+  role: null,
+}
 
 export const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
-    saveUser: (state, action: PayloadAction<{user: Partial<AdminUserI>}>) => {
-      const { email, name, id, idCinema, role } = action.payload.user;
-      state.email = email || state.email; // Only update if provided in payload
-      state.name = name || state.name; // Only update if provided in payload
-      state.id = id || state.id; // Only update if provided in payload
-      state.idCinema = idCinema || state.idCinema; // Only update if provided in payload
-      state.role = UserRole[role as UserRole];
+    saveUser: (state, action: PayloadAction<{ user: UserI }>) => {
+      const { id, name, email, role } = action.payload.user
+      state.id = id
+      state.name = name
+      state.email = email
+      state.role = role
     },
     removeUser: (state) => {
-      state.email = initialState.email;
-      state.name = initialState.name;
-      state.id = initialState.id;
-      state.idCinema = initialState.idCinema;
-      state.role = initialState.role;
+      state.id = initialState.id
+      state.name = initialState.name
+      state.email = initialState.email
+      state.role = initialState.role
     },
   },
-});
+})
 
-export const { saveUser, removeUser  } = userSlice.actions;
+export const { saveUser, removeUser } = userSlice.actions
 
-export default userSlice.reducer;
+export default userSlice.reducer

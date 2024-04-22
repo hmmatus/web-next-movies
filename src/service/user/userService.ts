@@ -1,20 +1,12 @@
-import { AdminUserI, SignUpAdminUserI, SignUpUserI, UserI } from "@/models/user";
-import { service } from "../config";
-import { userRoutes } from "./userRoutes";
+import { type GetUserResponseI, type RegisterUserI } from "@/models/user.model"
+import { service } from "../config"
+import { userRoutes } from "./userRoutes"
 
 export const userService = {
-  signUp: (data: SignUpAdminUserI | SignUpUserI) => {
-    return service.post(userRoutes.register(), {
-      ...data,
-    });
+  getUser: async (id: string): Promise<{ user: GetUserResponseI }> => {
+    return await service.get(userRoutes.getUser(id))
   },
-  login: ({ email, password }: { email: string; password: string }) => {
-    return service.post(userRoutes.loginUser(), {
-      email,
-      password,
-    });
+  registerUser: async (data: RegisterUserI) => {
+    return await service.post(userRoutes.register(), data)
   },
-  getUserData: (userId: string) => {
-    return service.get(userRoutes.getUserData(userId));
-  }
-};
+}

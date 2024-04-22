@@ -1,13 +1,12 @@
-import Image from "next/image"
+import { Flex, Spin } from "antd"
+import type React from "react"
 
-const LoadingComponent = () => {
+const LoadingLayout: React.FC = () => {
   return (
-    <main>
-      <div className="flex items-center justify-center pt-4">
-        <Image alt="Loading" src={"/gif/loading.gif"} width={400} height={400} />
-      </div>
-    </main>
+    <Flex className="items-center justify-center">
+      <Spin size="large" tip="loading" />
+    </Flex>
   )
 }
 
-export default LoadingComponent;
+export default LoadingLayout

@@ -1,0 +1,36 @@
+.container {
+  position: relative !important;
+  display: flex;
+  aspect-ratio: 2 / 3;
+}
+
+.container:hover .image {
+  background-color: theme("colors.black");
+  opacity: 0.6;
+}
+
+@keyframes display-info {
+  from {
+    height: 0;
+  }
+  to {
+    height: 150px;
+  }
+}
+
+.container:hover .preview {
+  z-index: 1;
+  position: absolute;
+  bottom: 0;
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 150px;
+  animation-name: display-info;
+  animation-duration: 1s;
+  gap: 1;
+  padding: 4px;
+
+  background-color: theme("colors.white");
+}

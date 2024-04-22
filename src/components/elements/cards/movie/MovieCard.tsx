@@ -1,52 +1,89 @@
-import { MovieI } from "@/models/movie";
-import { UserRole } from "@/models/user";
-import { useAppSelector } from "@/redux/hooks";
-import { Colors } from "@/styles/colors";
-import Image from "next/image";
-import { AiOutlineLike } from "react-icons/ai";
-import { AiFillLike } from "react-icons/ai";
-
-type MovieCardP = {
-  movie: MovieI;
-  onClick(): void;
-  isLiked?: boolean;
-  onPressLike?(): void;
-};
-const MovieCard = ({ movie, onClick, onPressLike, isLiked }: MovieCardP) => {
-  const {id, role} = useAppSelector(state => state.user);
-  const isCustomer = !!id && UserRole.customer === role
+import React, { type ReactElement } from "react"
+import { type MovieI } from "@/models/movie.model"
+import { Colors } from "@/styles/colors"
+import { HeartFilled, HeartOutlined } from "@ant-design/icons"
+import { Skeleton, Space } from "antd"
+import Image from "next/image"
+import styles from "./style.module.css"
+import Link from "next/link"
+const HeartIcon = ({
+  isLiked,
+  onClick,
+}: {
+  isLiked: boolean
+  onClick: () => void
+}): ReactElement => {
+  const commonStyle = {
+    color: Colors.like,
+    fontSize: "32px",
+  }
   return (
-    <div className="flex flex-col justify-between rounded-lg shadow-md p-2">
+    <div className="cursor-pointer" onClick={onClick}>
+      {isLiked ? (
+        <HeartFilled style={commonStyle} />
+      ) : (
+        <HeartOutlined style={commonStyle} />
+      )}
+    </div>
+  )
+}
+
+const MovieSkeleton = (): ReactElement => {
+  return (
+    <Space className="animate-pulse">
+      <Skeleton.Image />
+      <Skeleton />
+      <Skeleton />
+    </Space>
+  )
+}
+const MovieCard = ({
+  movie,
+  loading,
+  isLoggedIn,
+  onPressLike,
+}: {
+  movie: MovieI
+  loading: boolean
+  isLoggedIn: boolean
+  onPressLike: () => void
+}): ReactElement => {
+  if (loading) {
+    return <MovieSkeleton />
+  }
+  return (
+    <div className={`${styles.container}`}>
       <Image
-        className="self-center"
+        className={`${styles.image}`}
+        alt={movie.title}
         src={movie.image}
-        alt={"Image"}
-        width={200}
-        height={200}
+        fill
       />
-      <div className="flex items-center justify-evenly">
-        <div>
-          <h1 className="text-2xl font-bold">{movie.title}</h1>
-          <p className="text-xl mb-4">{movie.description}</p>
-        </div>
-        <div className={`${isCustomer ? "": "hidden"} hover:cursor-pointer`} onClick={onPressLike}>
-          {isLiked ? (
-            <AiFillLike size={30} color={Colors.primary} />
-          ) : (
-            <AiOutlineLike size={30} color={Colors.primary} />
-          )}
-        </div>
-      </div>
-      <div className="hover:cursor-pointer">
-        <h3
-          className="text-2xl font-bold text-primary"
-          onClick={onClick}
+      <div className={`${styles.preview}`}>
+        <div
+          className={`${isLoggedIn ? "flex" : "hidden"} justify-between mr-2`}
         >
-          Read more
-        </h3>
+          <h3>{movie.title}</h3>
+          <HeartIcon
+            isLiked={movie.isMovieLiked ?? false}
+            onClick={onPressLike}
+          />
+        </div>
+        <p>{movie.description}</p>
+        <Link
+          className="max-w-max"
+          href={{
+            pathname: "details",
+            query: {
+              movie: JSON.stringify(movie),
+            },
+          }}
+        >
+          Read More
+        </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MovieCard;
+export default MovieCard

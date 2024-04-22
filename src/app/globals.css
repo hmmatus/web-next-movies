@@ -2,17 +2,51 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
+@layer base {
+  h1 {
+    @apply text-4xl;
+    @apply font-bold;
+  }
+  h2 {
+    @apply text-2xl;
+    @apply font-bold;
+  }
+  h3 {
+    @apply text-xl;
+    @apply font-bold;
+  }
+  h4 {
+    @apply text-lg;
+    @apply font-bold;
+  }
+
+  p {
+    @apply text-lg;
+  }
+}
+
+.ant-table td,
+th {
+  font-size: 1.5rem;
+}
+
+html,
+body {
   padding: 0;
   margin: 0;
   border: 0;
-  width: 100vw;
   font-size: 16px;
 }
 
-main {
+body {
   width: 100vw;
   min-height: 100vh;
+}
+
+@media (max-width: 720px) {
+  body {
+    padding: 0;
+  }
 }
 
 * {

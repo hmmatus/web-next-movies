@@ -8,8 +8,20 @@ const nextConfig = {
         port: "",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "i.pinimg.com",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig
